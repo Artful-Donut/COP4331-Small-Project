@@ -35,7 +35,7 @@
 		}
 
 		$stmt = $conn->prepare("INSERT into MainUsers (FirstName,LastName,Email,PhoneNumber, Password) VALUES(?,?,?,?,?)");
-		$stmt->bind_param("sssss", $firstName, $lastName, $mail, $phone, $pass);
+		$stmt->bind_param("sssis", $firstName, $lastName, $mail, $phone, $pass);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
