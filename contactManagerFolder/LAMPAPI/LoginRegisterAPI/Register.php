@@ -9,23 +9,30 @@
 			PhoneNumber : phone,
     };
 	*/
+
 	$firstName = $inData["FirstName"];
 	$lastName = $inData["LastName"];
 	$mail = $inData["Email"];
 	$phone = $inData["PhoneNumber"];
-	$login = $inData["Login"];
 	$pass = $inData["Password"];
 
 	# create connection (copied from Login.php)
-	$conn = new mysqli("localhost", "Cavem", "password", "SMproj");
+	$conn = new mysqli("localhost", "vicroj@test.com", "1234", "SMPROJ");
 
 	# if connection fails
 	if ($conn->connect_error) {
 		echo("connection FAILED.");
 		returnWithError($conn->connect_error);
 	} else {
-		$stmt = $conn->prepare("INSERT into MainUsers (ID,FirstName,LastName,Email,PhoneNumber,Login,Password) VALUES(?,?,?,?,?,?,?)");
-		$stmt->bind_param("issssss", $userId, $firstName, $lastName, $mail, $phone, $login, $pass);
+		$uniqEm = $conn->prepare("SELECT * FROM MainUser WHERE Email = ''");
+
+		if (!$uniq)
+		{
+			returnWithError('User already exists!');
+		}
+
+		$stmt = $conn->prepare("INSERT into MainUsers (FirstName,LastName,Email,PhoneNumber, Password) VALUES(?,?,?,?,?)");
+		$stmt->bind_param("sssss", $firstName, $lastName, $mail, $phone, $pass);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();

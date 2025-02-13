@@ -39,6 +39,9 @@ function addUser()
 			if (this.readyState == 4 && this.status == 200) 
 			{
 				window.alert("User Created");
+
+                // sends user back to the index
+                window.location.href = "index.html";
 			}
 		};
 		xhr.send(jsonPayload);
