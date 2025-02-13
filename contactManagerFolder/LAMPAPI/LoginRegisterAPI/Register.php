@@ -24,9 +24,11 @@
 		echo("connection FAILED.");
 		returnWithError($conn->connect_error);
 	} else {
-		$uniqEm = $conn->prepare("SELECT * FROM MainUser WHERE Email = ''");
+		$uniqEm = $conn->prepare("SELECT * FROM MainUsers WHERE Email = ?");
+		$uniqEm->bind_param("s", $mail);	
 
-		if (!$uniq)
+		$result = $uniqEm->get_result();
+		if ($result->num_rows > 0)
 		{
 			returnWithError('User already exists!');
 		}
