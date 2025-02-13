@@ -17,7 +17,7 @@
 	$pass = $inData["Password"];
 
 	# create connection (copied from Login.php)
-	$conn = new mysqli("localhost", "Cavem", "password", "SMproj");
+	$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
 	# if connection fails
 	if ($conn->connect_error) {
