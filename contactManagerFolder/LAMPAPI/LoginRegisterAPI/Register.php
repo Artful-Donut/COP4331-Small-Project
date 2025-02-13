@@ -19,6 +19,7 @@
 	# create connection (copied from Login.php)
 	$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
+
 	# if connection fails
 	if ($conn->connect_error) {
 		echo("connection FAILED.");
