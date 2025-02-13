@@ -1,4 +1,6 @@
 <?php
+	echo("hai :3");
+	
 	$inData = getRequestInfo();
 	
 	/*
