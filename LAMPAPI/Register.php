@@ -1,0 +1,3 @@
+<?php
+    $inData = getRequestInfo()
+?>
