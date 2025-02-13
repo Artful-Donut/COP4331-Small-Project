@@ -17,6 +17,7 @@ function addUser()
     // user back to the login screen tho :<
 	// document.getElementById("colorAddResult").innerHTML = "";
 
+    // TODO: I don't know what to do for the login field so I left it blank :(
 	let tmp = {
         FirstName : firstName,
         LastName : lastName,
