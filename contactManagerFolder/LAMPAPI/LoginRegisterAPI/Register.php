@@ -35,9 +35,18 @@ if ($conn->connect_error) {
         $stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, PhoneNumber, Password) VALUES (?, ?, ?, ?, ?)");
         $stmt->bind_param("sssss", $firstName, $lastName, $mail, $phone, $pass);
         $stmt->execute();
+
+        if($row = $result->fetch_assoc())
+        {
+            returnWithInfo($row['FirstName'], $row['LastName'], $row['ID']);
+        }
+        else
+        {
+            returnWithError("No results found");
+        }
         $stmt->close();
         $conn->close();
-        returnWithError(""); // Success
+        // Success
     }
 }
 
@@ -62,5 +71,10 @@ function returnWithError($err)
     sendResultInfoAsJson($retValue);
 }
 
+function returnWithInfo( $firstName, $lastName, $id )
+{
+    $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
+    sendResultInfoAsJson( $retValue );
+}
 
 ?>
