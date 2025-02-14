@@ -1,4 +1,4 @@
-const urlBase = 'http://contact.afari.online/LAMPAPI';
+const urlBase = 'http://contact.afari.online/LAMPAPI/LoginRegisterAPI';
 const extension = 'php';
 
 function doLogin()
@@ -8,6 +8,7 @@ function doLogin()
 	lastName = "";
 	
 	let login = document.getElementById("loginName").value;
+    let password = document.getElementById("loginPassword").value;
 	
 	//document.getElementById("loginResult").innerHTML = "";
 
@@ -31,14 +32,15 @@ function doLogin()
 		
 				if( userId < 1 )
 				{		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+					// document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                    window.alert("login success");
 					return;
 				}
 		
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
-				saveCookie();
+				//saveCookie();
 	
 				window.location.href = "dashboard.html";
 			}
