@@ -17,7 +17,7 @@ $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 if ($conn->connect_error) {
     returnWithError("Connection failed: " . $conn->connect_error);
 } else {
-    $stmt = $conn->prepare("SELECT * FROM MainUsers WHERE Email = ?");
+    $stmt = $conn->prepare("SELECT ID FROM MainUsers WHERE Email = ?");
     $stmt->bind_param("s", $inData["email"]);
     $stmt->execute();
     $result = $stmt->get_result();
