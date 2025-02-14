@@ -1,9 +1,9 @@
 <?php
 
+
 function getRequestInfo() {
     return json_decode(file_get_contents("php://input"), true);
 }
-
 function sendResultInfoAsJson($obj) {
     header('Content-type: application/json');
     echo json_encode($obj);
@@ -29,7 +29,7 @@ $email = isset($inData["email"]) ? $inData["email"] : null;
 $password = isset($inData["password"]) ? $inData["password"] : null;
 $phoneNumber = isset($inData["phoneNumber"]) ? $inData["phoneNumber"] : null;
 
-echo ($firstName . " " . $lastName . " " . $email . " " . $password . " " . $phoneNumber);
+
 
 
 // create Register.php logic
