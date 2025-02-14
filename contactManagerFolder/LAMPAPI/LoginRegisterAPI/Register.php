@@ -39,7 +39,7 @@ if ($result->num_rows > 0) {
 
 // Insert new user
 $stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, PhoneNumber, Password) VALUES (?, ?, ?, ?, ?)");
-$stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $hashedPassword);
+$stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $pass);
 $stmt->execute();
 
 // Get inserted user ID
@@ -70,34 +70,6 @@ function returnWithInfo($firstName, $lastName, $id) {
     $retValue = '{"id":' . $id . ',"firstName":"' . $firstName . '","lastName":"' . $lastName . '","error":""}';
     sendResultInfoAsJson($retValue);
 }
-/*function getRequestInfo() {
-    return json_decode(file_get_contents("php://input"), true);
-}
-function sendResultInfoAsJson($obj) {
-    header('Content-type: application/json');
-    echo json_encode($obj);
-    exit();
-}
-
-function returnWithError($err) {
-    sendResultInfoAsJson(["success" => false, "message" => $err]);
-}
-
-// if create user button sends user to contacts.html, set success to false
-function returnWithInfo($message) {
-    sendResultInfoAsJson(["success" => true, "message" => $message]);
-}
-
-// inData
-$inData = getRequestInfo();
-
-// define values from inData
-$firstName = isset($inData["firstName"]) ? $inData["firstName"] : null;
-$lastName = isset($inData["lastName"]) ? $inData["lastName"] : null;
-$email = isset($inData["email"]) ? $inData["email"] : null;
-$password = isset($inData["password"]) ? $inData["password"] : null;
-$phoneNumber = isset($inData["phoneNumber"]) ? $inData["phoneNumber"] : null;
-*/
 
 
 ?>
