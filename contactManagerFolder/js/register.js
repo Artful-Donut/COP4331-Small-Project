@@ -1,7 +1,7 @@
 // TODO: We can probably add this code to a bigger js file if we wanna keep things tidy
 // I just don't want to mess with other files in this branch
 
-const urlBase = 'http://contact.afari.online/LAMPAPI';
+const urlBase = 'http://contact.afari.online/LAMPAPI/LoginRegisterAPI';
 const extension = 'php';
 
 // Adds a user to the database
