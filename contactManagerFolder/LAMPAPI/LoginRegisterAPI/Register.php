@@ -1,20 +1,13 @@
 <?php
 $inData = getRequestInfo();
 
-/*
-    let tmp = {
-        FirstName : firstName,
-        LastName : lastName,
-        Email : email,
-        PhoneNumber : phone,
-};
-*/
 
-$firstName = $inData["FirstName"];
+
+/*$firstName = $inData["FirstName"];
 $lastName = $inData["LastName"];
 $mail = $inData["Email"];
 $phone = $inData["PhoneNumber"];
-$pass = $inData["Password"];
+$pass = $inData["Password"];*/
 
 # create connection (copied from Login.php)
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
@@ -24,16 +17,16 @@ $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 if ($conn->connect_error) {
     returnWithError("Connection failed: " . $conn->connect_error);
 } else {
-    $uniqEm = $conn->prepare("SELECT * FROM MainUsers WHERE Email = ?");
-    $uniqEm->bind_param("s", $mail);
-    $uniqEm->execute();
-    $result = $uniqEm->get_result();
+    $stmt = $conn->prepare("SELECT * FROM MainUsers WHERE Email = ?");
+    $stmt->bind_param("s", $inData["email"]);
+    $stmt->execute();
+    $result = $stmt->get_result();
 
     if ($result->num_rows > 0) {
         returnWithError("User already exists!");
     } else {
         $stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, PhoneNumber, Password) VALUES (?, ?, ?, ?, ?)");
-        $stmt->bind_param("sssss", $firstName, $lastName, $mail, $phone, $pass);
+        $stmt->bind_param("sssss", $inData['firstName'], $inData['lastName'], $inData['email'], $inData['phoneNumber'], $inData['password']);
         $stmt->execute();
 
         if($row = $result->fetch_assoc())
