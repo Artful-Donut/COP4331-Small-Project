@@ -1,6 +1,11 @@
 <?php
 $inData = getRequestInfo();
 
+
+error_reporting(E_ALL);
+ini_set('display_errors', '1');
+header('Content-Type: application/json');
+
 // Extract and sanitize input
 $firstName = trim($inData["FirstName"]);
 $lastName = trim($inData["LastName"]);
