@@ -15,7 +15,7 @@ $phone = trim($inData["PhoneNumber"]);
 $pass = trim($inData["Password"]);
 
 // Hash the password
-$hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
+//$hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // Create database connection
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
