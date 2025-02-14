@@ -52,7 +52,7 @@ function createContact()
 
 function readContact()
 {
-
+    
 
 }
 

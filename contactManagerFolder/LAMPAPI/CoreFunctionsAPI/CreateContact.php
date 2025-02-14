@@ -5,7 +5,7 @@ $inData = getRequestInfo();
 // Extracting values from JSON
 $fullName = $inData["fullName"];
 $email = $inData["email"];
-$userId = $inData["userId"];
+$userId = $inData["UserId"];
 
 // Connection object that allows us to connect to our db
 $conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
