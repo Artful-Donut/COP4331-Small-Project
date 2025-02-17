@@ -2,53 +2,58 @@
 
 $inData = getRequestInfo();
 
-$searchResults = []; // Use an array instead of a string
-$searchCount = 0;
-
+// Database Connection
 $conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 
-if ($conn->connect_error)
-{
+// Validate Connection
+if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
-else
-{
-    $stmt = $conn->prepare("SELECT FullName FROM Contacts WHERE FullName LIKE ? AND UserID=?");
-    $fullName = "%" . $inData["search"] . "%";
-    $stmt->bind_param("ss", $fullName, $inData["UserId"]);
+
+else {
+    // Only filter by UserID for the initial fetch
+    $stmt = $conn->prepare("SELECT ID, FullName, Email, Phone FROM Contacts WHERE UserID = ?");
+
+    // Bind UserID as an Integer
+    $stmt->bind_param("i", $inData["UserId"]);
     $stmt->execute();
 
     $result = $stmt->get_result();
 
-    while ($row = $result->fetch_assoc())
-    {
-        $searchResults[] = $row["FullName"]; // Store each result in an array
-        $searchCount++;
+    // Storing the results from the sql statement into our contacts array to be sent to the front end
+    $contacts = [];
+    while ($row = $result->fetch_assoc()) {
+        $contacts[] = [
+            "id" => $row["ID"],
+            "name" => $row["FullName"],
+            "email" => $row["Email"],
+            "phone" => $row["Phone"]
+        ];
     }
 
-    if ($searchCount == 0)
-    {
-        returnWithError("No Records Found");
+    // Case where we have do not have any contacts associated with an account
+    if (empty($contacts)) {
+        returnWithError("No contacts found");
     }
     else
     {
-        returnWithInfo($searchResults);
+        returnWithInfo($contacts);
     }
 
+    // Closing connections
     $stmt->close();
     $conn->close();
 }
 
+// Helper Function to Get JSON Input
 function getRequestInfo()
 {
     $jsonData = file_get_contents('php://input');
-
     if (!$jsonData) {
         die(json_encode(["error" => "No JSON input received"]));
     }
 
     $decodedData = json_decode($jsonData, true);
-
     if (json_last_error() !== JSON_ERROR_NONE) {
         die(json_encode(["error" => "Invalid JSON format: " . json_last_error_msg()]));
     }
@@ -56,22 +61,23 @@ function getRequestInfo()
     return $decodedData;
 }
 
+// Helper Function to Return JSON Response
 function sendResultInfoAsJson($obj)
 {
     header('Content-type: application/json');
-    echo json_encode($obj); // Ensure proper JSON encoding
+    echo json_encode($obj);
 }
 
+// Function to Return Error Response
 function returnWithError($err)
 {
-    $retValue = ["error" => $err];
-    sendResultInfoAsJson($retValue);
+    sendResultInfoAsJson(["error" => $err]);
 }
 
-function returnWithInfo($searchResults)
+// Function to Return Success Response with Contact Information
+function returnWithInfo($contacts)
 {
-    $retValue = ["results" => $searchResults, "error" => ""];
-    sendResultInfoAsJson($retValue);
+    sendResultInfoAsJson(["results" => $contacts, "error" => ""]);
 }
 
 ?>

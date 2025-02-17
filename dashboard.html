@@ -4,162 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Manager</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #faf6e9;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            display: flex;
-            width: 800px;
-            height: 500px;
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            overflow: hidden;
-        }
-        .sidebar {
-            width: 35%;
-            background: #fff;
-            padding: 20px;
-            border-right: 2px solid #ddd;
-        }
-        .search-box {
-            width: 90%;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #d4af37;
-            border-radius: 5px;
-        }
-        .button {
-            width: 97.5%;
-            padding: 10px;
-            background: #007bff;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        .button:hover {
-            background: #0056b3;
-        }
-        .contact-list {
-            margin-top: 10px;
-        }
-        .contact-item {
-            padding: 10px;
-            border-bottom: 1px solid #ddd;
-            cursor: pointer;
-        }
-        .contact-item:hover {
-            background: #f1f1f1;
-        }
-        .details {
-            width: 65%;
-            padding: 20px;
-            position: relative;
-        }
-        .details h2 {
-            margin-top: 0;
-        }
-        .icon {
-            color: #d4af37;
-            margin-right: 8px;
-        }
-        .action-buttons {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-        }
-        .action-buttons button {
-            background: none;
-            border: none;
-            color: #d4af37;
-            font-size: 18px;
-            cursor: pointer;
-            margin-left: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="contactManagerFolder/css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <div class="sidebar">
-            <input type="text" class="search-box" placeholder="Search contacts...">
-            <button class="button">Add Contact</button>
-            <div class="contact-list" id="contactList"></div>
-        </div>
-        <div class="details" id="contactDetails">
-            <div class="action-buttons">
-                <button onclick="editContact()">✏️</button>
-                <button onclick="removeContact()">🗑️</button>
-            </div>
-            <h2>Select a Contact</h2>
-            <p><span class="icon">📧</span> <span id="email">Email</span></p>
-            <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
-        </div>
+<div class="container">
+    <div class="sidebar">
+        <input type="text" class="search-box" placeholder="Search contacts...">
+        <button class="button" onclick="createContact()">Add Contact</button>
+        <div class="contact-list" id="contactList"></div>
     </div>
-    <script>
-        const contacts = [
-            { name: "Group26", email: "group26@ucf.edu", phone: "123-456-7890" },
-            { name: "Gabriel", email: "gabriel@ucf.edu", phone: "987-654-3210" },
-            { name: "COP4331", email: "COP4331@ucf.edu", phone: "111-111-1111" }
-        ];
 
-        const contactList = document.getElementById("contactList");
-        const contactDetails = document.getElementById("contactDetails");
-        let selectedContact = null;
+    <div class="details" id="contactDetails">
+        <div class="action-buttons">
+            <button onclick="updateContact()">✏️ Edit</button>
+            <button onclick="deleteContact()">🗑️ Delete</button>
+        </div>
+        <h2>Select a Contact</h2>
+        <p><span class="icon">📧</span> <span id="email">Email</span></p>
+        <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
+    </div>
+</div>
 
-        function displayContacts() {
-            contactList.innerHTML = "";
-            contacts.forEach((contact, index) => {
-                const div = document.createElement("div");
-                div.classList.add("contact-item");
-                div.textContent = contact.name;
-                div.onclick = () => displayContactDetails(contact, index);
-                contactList.appendChild(div);
-            });
-        }
-
-        function displayContactDetails(contact, index) {
-            selectedContact = index;
-            contactDetails.innerHTML = `<div class="action-buttons">
-                <button onclick="editContact()">✏️</button>
-                <button onclick="removeContact()">🗑️</button>
-            </div>
-            <h2>${contact.name}</h2>
-            <p><span class="icon">📧</span> ${contact.email}</p>
-            <p><span class="icon">📞</span> ${contact.phone}</p>`;
-        }
-
-        function editContact() {
-            if (selectedContact !== null) {
-                const newEmail = prompt("Enter new email:", contacts[selectedContact].email);
-                const newPhone = prompt("Enter new phone:", contacts[selectedContact].phone);
-                if (newEmail && newPhone) {
-                    contacts[selectedContact].email = newEmail;
-                    contacts[selectedContact].phone = newPhone;
-                    displayContactDetails(contacts[selectedContact], selectedContact);
-                }
-            }
-        }
-
-        function removeContact() {
-            if (selectedContact !== null) {
-                contacts.splice(selectedContact, 1);
-                selectedContact = null;
-                displayContacts();
-                contactDetails.innerHTML = `<h2>Select a Contact</h2>
-                    <p><span class="icon">📧</span> Email</p>
-                    <p><span class="icon">📞</span> Phone</p>`;
-            }
-        }
-
-        displayContacts();
-    </script>
+<!-- Link to External JavaScript File -->
+<script src="contactManagerFolder/js/crud.js"></script>
 </body>
 </html>
