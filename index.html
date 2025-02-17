@@ -15,9 +15,9 @@
             <h3 class="text-center mb-3">Sign in</h3>
             <p class="text-center text-muted">Stay updated on your professional world</p>
 
-            <form action="Login.php" method="POST">
+            
                 <div class="mb-3">
-                    <input type="email" class="form-control" placeholder="Email or Phone" required>
+                    <input type="email" class="form-control" id="email" placeholder="Email" required>
                 </div>
 
                 <div class="mb-3 password-container">
@@ -27,7 +27,7 @@
 
                 <!-- <a href="#" class="text-decoration-none d-block mb-3">Forgot password?</a> -->
 
-                <button type="submit" class="btn btn-primary w-100 py-2" onclick="doLogin();">Sign in</button>
+                <button class="btn btn-primary w-100 py-2" onclick="doLogin();">Sign in</button>
 
                 <!-- <div class="text-center mt-3">or</div> -->
 
@@ -35,7 +35,7 @@
                     <img src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Apple_logo_black.svg" width="20"> Sign
                     in with Apple
                 </button> -->
-            </form>
+            
         </div>
 
         <div class="footer">
@@ -64,7 +64,8 @@
         firstName = "";
         lastName = "";
         
-        let login = document.getElementById("loginName").value;
+        let login = document.getElementById("email").value;
+        let password = document.getElementById("password").value;
         
         //document.getElementById("loginResult").innerHTML = "";
 
@@ -79,13 +80,14 @@
         xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
         try
         {
+          
           xhr.onreadystatechange = function() 
           {
             if (this.readyState == 4 && this.status == 200) 
             {
               let jsonObject = JSON.parse( xhr.responseText );
               userId = jsonObject.id;
-          
+              
               if( userId < 1 )
               {		
                 document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
@@ -105,7 +107,7 @@
         catch(err)
         {
           //document.getElementById("loginResult").innerHTML = err.message;
-              window.alert("You failed.");
+          alert("You failed.");
         }
 
       }
