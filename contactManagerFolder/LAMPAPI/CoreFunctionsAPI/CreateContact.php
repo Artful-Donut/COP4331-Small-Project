@@ -1,12 +1,18 @@
 <?php
+// Allow CORS (Enable cross-origin requests)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
 // Requesting incoming JSON object
 $inData = getRequestInfo();
 
 // Extracting values from JSON
 $fullName = $inData["fullName"];
 $email = $inData["email"];
-$userId = $inData["UserId"];
-
+$userId = $inData["userId"];
+$phone = $inData["phone"];
 // Connection object that allows us to connect to our db
 $conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 
@@ -18,8 +24,8 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (FullName, Email, UserId) VALUES (?, ?, ?)");
-    $stmt->bind_param("ssi", $fullName, $email, $userId); // Binding our parameters to the ? arguments in the SQL statement
+    $stmt = $conn->prepare("INSERT INTO Contacts (FullName, Email, UserID, Phone) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("ssis", $fullName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement
     if ($stmt->execute()) 

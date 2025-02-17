@@ -34,11 +34,11 @@ function doLogin()
 					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
 					return;
 				}
-		
+
 				firstName = jsonObject.firstName;
 				lastName = jsonObject.lastName;
 
-				saveCookie();
+				saveCookie(userId, firstName, lastName);
 	
 				window.location.href = "dashboard.html";
 			}

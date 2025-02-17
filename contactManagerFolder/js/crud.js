@@ -1,41 +1,85 @@
 // Controller level for calling API endpoints in LAMP API
 
-// Url for endpoints
-const urlBase = "http://contact.afari.online/LAMPAPI";
-const extension = "";
 
 // User attributes
-
 let ID = 0;
 let fullName = "";
 let email = "";
 let UserID = 1; // The ID of the account that is creating the contact
-
-// TODO -> Remove this as we have an actual database
-const contacts = [
-    { name: "Group26", email: "group26@ucf.edu", phone: "123-456-7890" },
-    { name: "Gabriel", email: "gabriel@ucf.edu", phone: "987-654-3210" },
-    { name: "COP4331", email: "COP4331@ucf.edu", phone: "111-111-1111" }
-];
 
 // DOM element initialization
 const contactList = document.getElementById("contactList");
 const contactDetails = document.getElementById("contactDetails");
 let selectedContact = null; // Track selected contact index
 
-// Function for displaying contacts
-function displayContacts() {
-    contactList.innerHTML = ""; // Clear existing list
-    contacts.forEach((contact, index) => {
+// Function for fetching the contacts 
+let contactArray = [];
+
+
+
+function fetchContacts() {
+
+    // Define a user id -> Should not be hard coded -> need a getCookie() function
+    let userId = 1;
+
+    // Checks to see if the user id is not equal to null -> if it is, we prompt the user to the login page
+    if (!userId) {
+        alert("No user logged in. Please log in first.");
+        window.location.href = "index.html";
+        return;
+    }
+
+    // Creating a json object to be sent to our Read API endpoint
+    let jsonPayload = JSON.stringify({ UserId: userId });
+
+    // POST request to our db
+    fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/ReadContact.php", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonPayload
+    })
+        // Handling the data we get sent back
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error fetching contacts: " + data.error);
+            } else {
+                contactArray = data.results;
+                displayContacts(contactArray); // Display contacts from API call
+            }
+        })
+        .catch(error => {
+            console.error("Error fetching contacts:", error);
+        });
+}
+
+
+
+
+// Function for displaying contacts from API request
+function displayContacts(contactArrayResponse) {
+    // Check if input is an array
+    if (!Array.isArray(contactArrayResponse)) {
+        console.error("displayContacts error: contactArray is not an array", contactArray);
+        return;
+    }
+
+    // Clear existing contacts
+    contactList.innerHTML = "";
+
+    // Display contacts
+    contactArrayResponse.forEach((contact, index) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
-        div.textContent = contact.name;
+        div.textContent = contact.name || "No Name";
         div.onclick = () => displayContactDetails(contact, index);
         contactList.appendChild(div);
     });
+
+    console.log("Displayed contacts:", contactArray);
 }
 
-// Funxtion for displaying details about a contact within a window
+// Function for displaying details about a contact within a window
 function displayContactDetails(contact, index) {
     selectedContact = index;
     contactDetails.innerHTML = `
@@ -92,14 +136,42 @@ function createContactProxy()
 // Function for contact Creation
 function createContact()
 {
-    const name = prompt("Enter contact name:");
+    // We prompt the user to create a new contact and enter relevant information about a contact
+    const fullName = prompt("Enter contact name:");
     const email = prompt("Enter contact email:");
     const phone = prompt("Enter contact phone:");
-    if (name && email && phone) 
+
+    // Checking to see ifn any of the values or null, if they are -> we can alert the user that all fields need to be present
+    if (fullName && email && phone)
     {
-        contacts.push({ name, email, phone });
-        displayContacts();
-    }
+
+        // After we grab the data -> Persist it to the database
+        let userId = 1; // -> NEEDS to not be hardcoded (use getCookie() function)
+
+        // Creating JSON object of data we retrieved
+        let jsonPayload = JSON.stringify({fullName: fullName, email: email, phone: phone, userId: userId});
+
+        // Initialize POST request
+        fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: jsonPayload
+        })
+        // Handling the data we get sent back
+    .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error creating contacts: " + data.error);
+            } else {
+                alert("Contact with contact id: " + data.contactid + " has been created successfully");
+                fetchContacts();
+            }
+        })
+        .catch(error => {
+            console.error("Error creating contacts:", error);
+        });
+        }
+
 }
 
 // Function for updating a contact
@@ -147,4 +219,4 @@ function deleteContact()
 
 
 // Initial rendering
-displayContacts();
+fetchContacts();
