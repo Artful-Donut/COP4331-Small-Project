@@ -1,5 +1,11 @@
 <?php
 
+// Allow CORS (Enable cross-origin requests)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
 // Retrieving JSON data
 $inData = getRequestInfo();
 
@@ -8,6 +14,7 @@ $contactID = $inData["contactID"];
 $accountID = $inData["accountID"];
 $fullName = $inData["fullName"];
 $email = $inData["email"];
+$phone = $inData["phone"];
 
 
 // Connection object declaration
@@ -34,15 +41,15 @@ if ($checkStmt->num_rows === 0)
 $checkStmt->close();
 
 // Prepare update statement
-$stmt = $conn->prepare("UPDATE Contacts SET FullName = ?, Email = ? WHERE ID = ? AND UserID = ?");
-$stmt->bind_param("ssii", $fullName, $email, $contactID, $accountID);
+$stmt = $conn->prepare("UPDATE Contacts SET FullName = ?, Email = ?, Phone = ? WHERE ID = ? AND UserID = ?");
+$stmt->bind_param("sssii", $fullName, $email, $phone, $contactID, $accountID);
 
 // Execute query
 if ($stmt->execute())
 {
     if ($stmt->affected_rows > 0)
     {
-        returnWithSuccess($fullName, $email);
+        returnWithSuccess($fullName, $email, $phone);
     }
     else
     {
@@ -73,11 +80,12 @@ function returnWithError($err) {
     sendResultInfoAsJson(json_encode(["error" => $err]));
 }
 
-function returnWithSuccess($fullName, $email) {
+function returnWithSuccess($fullName, $email, $phone) {
     sendResultInfoAsJson(json_encode([
         "message" => "Contact updated successfully!",
         "FullName" => $fullName,
-        "Email" => $email
+        "Email" => $email,
+        "Phone" => $phone
     ]));
 }
 

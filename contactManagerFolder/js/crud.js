@@ -84,8 +84,8 @@ function displayContactDetails(contact, index) {
     selectedContact = index;
     contactDetails.innerHTML = `
         <div class="action-buttons">
-            <button onclick="editContact()">✏️ Edit</button>
-            <button onclick="removeContact()">🗑️ Delete</button>
+            <button onclick="updateContact()">✏️ Edit</button>
+            <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
         <h2>${contact.name}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
@@ -175,45 +175,107 @@ function createContact()
 }
 
 // Function for updating a contact
-function updateContact() 
-{
-    if (selectedContact !== null) 
-    {
-        const newEmail = prompt("Enter new email:", contacts[selectedContact].email);
-        const newPhone = prompt("Enter new phone:", contacts[selectedContact].phone);
-        if (newEmail && newPhone) 
-        {
-            contacts[selectedContact].email = newEmail;
-            contacts[selectedContact].phone = newPhone;
-            displayContactDetails(contacts[selectedContact], selectedContact);
+function updateContact() {
+    if (selectedContact !== null) {
+        // Gathering data for new contact details
+        const newFullName = prompt("Enter new name", contactArray[selectedContact].name);
+        const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
+        const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
+
+        if (newFullName && newEmail && newPhone) {
+
+            // Defining user id of the current user we are logged into
+            let userId = 1;
+
+            // Define the id of the user we have currently *selected*
+            let ID = contactArray[selectedContact].id;
+
+            // Creating JSON Payload
+            let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId, fullName: newFullName, email: newEmail, phone: newPhone });
+
+            // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
+            fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
+                method: 'PUT',
+                headers: { 'Content-Type': 'application/json' },
+                body: jsonPayload
+            })
+                // Handling the data we get sent back
+                .then(response => response.json())
+                .then(data => {
+                    if (data.error)
+                    {
+                        alert("Error carrying out put request: " + data.error);
+                    }
+                    else {
+                        // Update local data after receiving a successful response from the server via fetch
+                        fetchContacts();
+                        alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
+
+                    }
+                })
+                .catch(error => {
+                    console.error("Error updating contact:", error);
+                });
         }
-    } 
-    else 
-    {
+    } else {
         alert("Please select a contact first!");
     }
 }
 
+
+
 // Function for deleting a contact
-function deleteContact() 
+// Function for deleting a contact
+function deleteContact()
 {
-    if (selectedContact !== null) 
+    if (selectedContact !== null)
     {
-        const confirmDelete = confirm(`Are you sure you want to delete ${contacts[selectedContact].name}?`);
+        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].name}?`);
         if (confirmDelete)
         {
-            contacts.splice(selectedContact, 1); // Remove from array
-            selectedContact = null; // Clear selection
-            displayContacts();
-            // Clear contact details
-            contactDetails.innerHTML = `<h2>Select a Contact</h2>
+            // Defining user id of the current user we are logged into
+            let userId = 1;
+
+            // Define the id of the user we have currently *selected*
+            let ID = contactArray[selectedContact].id;
+
+            // Creating JSON Payload
+            let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId });
+
+            // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
+            fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/DeleteContact.php", {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: jsonPayload
+            })
+                // Handling the data we get sent back
+                .then(response => response.json())
+                .then(data =>
+                {
+                    if (data.error)
+                    {
+                        alert("Error carrying out Delete request: " + data.error);
+                    }
+                    else {
+                        // Update local data after receiving a successful response from the server via fetch
+                        fetchContacts();
+                        alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
+
+                        // Clearing contact details
+                        contactDetails.innerHTML = `<h2>Select a Contact</h2>
                 <p><span class="icon">📧</span> Email</p>
                 <p><span class="icon">📞</span> Phone</p>`;
+
+                    }
+                })
+                .catch(error => {
+                    console.error("Error deleting contact:", error);
+                });
         }
-    } 
-    else 
+    }
+    else
     {
-        alert("No contact selected.");
+        alert("Please select a contact first!");
     }
 }
 
