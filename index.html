@@ -14,7 +14,6 @@
         <div class="login-container">
             <h3 class="text-center mb-3">Sign in</h3>
             <p class="text-center text-muted">Stay updated on your professional world</p>
-
             
                 <div class="mb-3">
                     <input type="email" class="form-control" id="email" placeholder="Email" required>
@@ -39,6 +38,7 @@
         </div>
 
         <div class="footer">
+            <p id="loginResult"></p>
             <p>New to Contact Manager? <a href="register.html">Join now</a></p>
         </div>
     </div>
@@ -90,8 +90,8 @@
               alert(userId);
               if( userId < 1 )
               {		
-                //document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-                alert("Wrong.");
+                document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                //alert("Wrong.");
                 return;
               }
           
@@ -107,8 +107,8 @@
         }
         catch(err)
         {
-          //document.getElementById("loginResult").innerHTML = err.message;
-          alert("You failed.");
+          document.getElementById("loginResult").innerHTML = err.message;
+          //alert("You failed.");
         }
 
       }
