@@ -8,6 +8,7 @@ const extension = 'php';
 function addUser()
 {
 	let firstName = document.getElementById("first_name").value;
+    console.log("Firstname is:" + firstName);
     let lastName = document.getElementById("last_name").value;
     let phone = document.getElementById("phone").value;
     let email = document.getElementById("email").value;
