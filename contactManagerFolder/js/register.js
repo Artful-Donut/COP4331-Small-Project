@@ -7,12 +7,11 @@ const extension = 'php';
 // Adds a user to the database
 function addUser()
 {
-	let firstName = document.getElementById("first_name").value;
-    console.log("Firstname is:" + firstName);
-    let lastName = document.getElementById("last_name").value;
-    let phone = document.getElementById("phone").value;
-    let email = document.getElementById("email").value;
-    let pass = document.getElementById("password").value;
+	let firstName = document.getElementsByName("first_name").value;
+    let lastName = document.getElementsByName("last_name").value;
+    let phone = document.getElementsByName("phone").value;
+    let email = document.getElementsByName("email").value;
+    let pass = document.getElementsByName("password").value;
 
     // TODO: Having a text line that shows results would be cool. I think I'm more inclined to take the 
     // user back to the login screen tho :<
