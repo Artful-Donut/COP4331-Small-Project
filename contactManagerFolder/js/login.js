@@ -1,54 +1,49 @@
-const urlBase = 'http://contact.afari.online/LAMPAPI';
-const extension = 'php';
+// login.js
 
-function doLogin()
-{
-	userId = 0;
-	firstName = "";
-	lastName = "";
-	
-	let login = document.getElementById("loginName").value;
-	
-	//document.getElementById("loginResult").innerHTML = "";
+function handleLoginSuccess(userId) {
+	clearCookie('accountID');
+	setCookie('accountID', userId, 7); // Store user ID for 7 days
+	console.log("Login successful, User ID stored:", userId);
+	window.location.href = "dashboard.html"; // Redirect to dashboard
+}
 
-	let tmp = {login:login,password:password};
+function doLogin(e) {
+	if (e) {
+		e.preventDefault(); // Prevent page reload from form submission
+	}
 
-	let jsonPayload = JSON.stringify( tmp );
-	
-	let url = urlBase + '/Login.' + extension;
+	let email = document.getElementById("email").value;
+	let password = document.getElementById("password").value;
+
+	let tmp = { email: email, password: password };
+	let jsonPayload = JSON.stringify(tmp);
+	let url = "http://localhost/LAMPAPI/LoginRegisterAPI/Login.php";
 
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-	try
-	{
-		xhr.onreadystatechange = function() 
-		{
-			if (this.readyState == 4 && this.status == 200) 
-			{
-				let jsonObject = JSON.parse( xhr.responseText );
-				userId = jsonObject.id;
-		
-				if( userId < 1 )
-				{		
-					document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
-					return;
-				}
 
-				firstName = jsonObject.firstName;
-				lastName = jsonObject.lastName;
+	xhr.onreadystatechange = function () {
+		if (this.readyState === 4 && this.status === 200) {
+			let jsonObject = JSON.parse(xhr.responseText);
+			let userId = jsonObject.id;
 
-				saveCookie(userId, firstName, lastName);
-	
-				window.location.href = "dashboard.html";
+			if (userId < 1) {
+				document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+				return;
 			}
-		};
-		xhr.send(jsonPayload);
-	}
-	catch(err)
-	{
-		//document.getElementById("loginResult").innerHTML = err.message;
-        window.alert("You failed.");
-	}
 
+			handleLoginSuccess(userId);
+		}
+	};
+
+	xhr.onerror = function () {
+		alert("Network error. Please try again later.");
+	};
+
+	try {
+		xhr.send(jsonPayload);
+	} catch (err) {
+		alert("Request failed: " + err.message);
+	}
 }

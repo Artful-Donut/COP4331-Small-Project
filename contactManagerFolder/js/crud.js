@@ -1,11 +1,13 @@
 // Controller level for calling API endpoints in LAMP API
 
 
+
+
 // User attributes
-let ID = 0;
-let fullName = "";
-let email = "";
-let UserID = 1; // The ID of the account that is creating the contact
+// let ID = 0;
+// let fullName = "";
+// let email = "";
+// let UserID = 1; // The ID of the account that is creating the contact
 
 // DOM element initialization
 const contactList = document.getElementById("contactList");
@@ -20,7 +22,7 @@ let contactArray = [];
 function fetchContacts() {
 
     // Define a user id -> Should not be hard coded -> need a getCookie() function
-    let userId = 1;
+    let userId = getCookie('accountID');
 
     // Checks to see if the user id is not equal to null -> if it is, we prompt the user to the login page
     if (!userId) {
@@ -31,6 +33,7 @@ function fetchContacts() {
 
     // Creating a json object to be sent to our Read API endpoint
     let jsonPayload = JSON.stringify({ UserId: userId });
+    console.log(jsonPayload);
 
     // POST request to our db
     fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/ReadContact.php", {
@@ -95,43 +98,6 @@ function displayContactDetails(contact, index) {
 
 // Handling crud operations
 
-// Old implementation -> contact creation
-function createContactProxy()
-{
-    // When we test it, these values needs to be hard coded
-    let newContactName = "Lebron James";
-    let newEmailName = "LeGloriousKing@gmail.com";
-
-    // Creating json Payload to be sent to our PHP defined api endpoint
-    let tmpPayload = {fullName: newContactName, userId: UserId, email: email};
-    let jsonPayload = JSON.stringify( tmpPayload );
-
-    // Url where our endpoint is defined
-    let url = urlBase + '/CreateContact.' + extension;
-
-
-    let xhr = new XMLHttpRequest();
-    xhr.open("POST", url, true);
-    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    try
-    {
-        xhr.onreadystatechange = function()
-        {
-            if (this.readyState == 4 && this.status == 200)
-            {
-                let response = JSON.parse(this.responseText)
-                alert("Contact submitted successfully with ID: " + response.contactId)
-            }
-        };
-        xhr.send(jsonPayload);
-    }
-    catch(err)
-    {
-        alert("Error: " + err.message)
-    }
-}
-
-
 
 // Function for contact Creation
 function createContact()
@@ -146,7 +112,7 @@ function createContact()
     {
 
         // After we grab the data -> Persist it to the database
-        let userId = 1; // -> NEEDS to not be hardcoded (use getCookie() function)
+        let userId = getCookie('accountID'); // -> NEEDS to not be hardcoded (use getCookie() function)
 
         // Creating JSON object of data we retrieved
         let jsonPayload = JSON.stringify({fullName: fullName, email: email, phone: phone, userId: userId});
@@ -185,7 +151,7 @@ function updateContact() {
         if (newFullName && newEmail && newPhone) {
 
             // Defining user id of the current user we are logged into
-            let userId = 1;
+            let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
             let ID = contactArray[selectedContact].id;
@@ -234,7 +200,7 @@ function deleteContact()
         if (confirmDelete)
         {
             // Defining user id of the current user we are logged into
-            let userId = 1;
+            let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
             let ID = contactArray[selectedContact].id;
@@ -278,6 +244,10 @@ function deleteContact()
         alert("Please select a contact first!");
     }
 }
+
+
+
+
 
 
 // Initial rendering
