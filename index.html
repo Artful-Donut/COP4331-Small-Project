@@ -55,7 +55,7 @@
     </script>
 
     <script>
-      const urlBase = 'http://contact.afari.online/LAMPAPI';
+      const urlBase = 'http://contact.afari.online/contactManagerFolder/LAMPAPI';
       const extension = 'php';
 
       function doLogin()
@@ -87,17 +87,18 @@
             {
               let jsonObject = JSON.parse( xhr.responseText );
               userId = jsonObject.id;
-              
+              alert(userId);
               if( userId < 1 )
               {		
-                document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                //document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+                alert("Wrong.");
                 return;
               }
           
               firstName = jsonObject.firstName;
               lastName = jsonObject.lastName;
 
-              saveCookie();
+              //saveCookie();
         
               window.location.href = "dashboard.html";
             }
