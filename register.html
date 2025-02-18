@@ -16,7 +16,7 @@
         <div class="register-container">
             <h3 class="text-center mb-3">Create an Account</h3>
             <p class="text-center text-muted">Join the Contact Manager platform</p>
-            <form action="register.php" method="POST">
+            <form>
                 <div class="mb-3">
                     <input type="text" class="form-control" name="first_name" placeholder="First Name" required>
                 </div>
@@ -38,7 +38,7 @@
                     <span class="password-toggle" onclick="togglePassword()">👁️</span>
                 </div>                
 
-                <button type="submit" class="btn btn-primary w-100 py-2" onclick="extractVar()" onclick="addUser();">Register</button>
+                <button class="btn btn-primary w-100 py-2" onclick="addUser();">Register</button>
             </form>
 
             <div class="footer mt-3">
