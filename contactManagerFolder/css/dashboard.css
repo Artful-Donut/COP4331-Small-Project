@@ -1,0 +1,79 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #faf6e9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+.container {
+    display: flex;
+    width: 800px;
+    height: 500px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    overflow: hidden;
+}
+.sidebar {
+    width: 35%;
+    background: #fff;
+    padding: 20px;
+    border-right: 2px solid #ddd;
+}
+.search-box {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #d4af37;
+    border-radius: 5px;
+}
+.button {
+    width: 97.5%;
+    padding: 10px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.button:hover {
+    background: #0056b3;
+}
+.contact-list {
+    margin-top: 10px;
+}
+.contact-item {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+.contact-item:hover {
+    background: #f1f1f1;
+}
+.details {
+    width: 65%;
+    padding: 20px;
+    position: relative;
+}
+.details h2 {
+    margin-top: 0;
+}
+.icon {
+    color: #d4af37;
+    margin-right: 8px;
+}
+.action-buttons {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.action-buttons button {
+    background: none;
+    border: none;
+    color: #d4af37;
+    font-size: 18px;
+    cursor: pointer;
+    margin-left: 10px;
+}

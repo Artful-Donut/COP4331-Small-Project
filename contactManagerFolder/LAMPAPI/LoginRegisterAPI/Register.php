@@ -1,4 +1,17 @@
 <?php
+// Allow CORS (Enable cross-origin requests)
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Content-Type: application/json");
+
+// Handle preflight OPTIONS request
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
+{
+    http_response_code(200);
+    exit();
+}
+
 
 $inData = getRequestInfo();
 
@@ -18,7 +31,7 @@ $pass = trim($inData["Password"]);
 //$hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // Create database connection
-$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
+$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 
 // If connection fails
 if ($conn->connect_error) {
@@ -27,7 +40,7 @@ if ($conn->connect_error) {
 }
 
 // Check if user already exists
-$stmt = $conn->prepare("SELECT ID FROM MainUsers WHERE Email = ?");
+$stmt = $conn->prepare("SELECT ID FROM Users WHERE Email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -38,7 +51,7 @@ if ($result->num_rows > 0) {
 }
 
 // Insert new user
-$stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, PhoneNumber, Password) VALUES (?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Email, Phone, Password) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $pass);
 $stmt->execute();
 
