@@ -1,6 +1,7 @@
 // login.js
 
-function handleLoginSuccess(userId) {
+function handleLoginSuccess(userId)
+{
 	clearCookie('accountID');
 	setCookie('accountID', userId, 7); // Store user ID for 7 days
 	console.log("Login successful, User ID stored:", userId);
