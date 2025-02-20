@@ -1,10 +1,12 @@
 <?php
 
 // Allow CORS (Enable cross-origin requests)
+/*
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, PUT, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
+*/
 
 // Retrieving JSON data
 $inData = getRequestInfo();
@@ -18,7 +20,8 @@ $phone = $inData["phone"];
 
 
 // Connection object declaration
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+//$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
 // Connection validation
 if ($conn->connect_error)
