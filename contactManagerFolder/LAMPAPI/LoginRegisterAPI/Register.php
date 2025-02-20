@@ -41,7 +41,7 @@ if ($conn->connect_error) {
 }
 
 // Check if user already exists
-$stmt = $conn->prepare("SELECT ID FROM Users WHERE Email = ?");
+$stmt = $conn->prepare("SELECT ID FROM MainUsers WHERE Email = ?");
 $stmt->bind_param("s", $email);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -52,7 +52,7 @@ if ($result->num_rows > 0) {
 }
 
 // Insert new user
-$stmt = $conn->prepare("INSERT INTO Users (FirstName, LastName, Email, Phone, Password) VALUES (?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, Phone, Password) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $pass);
 $stmt->execute();
 
