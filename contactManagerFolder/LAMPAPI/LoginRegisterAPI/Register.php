@@ -52,7 +52,7 @@ if ($result->num_rows > 0) {
 }
 
 // Insert new user
-$stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, Phone, Password) VALUES (?, ?, ?, ?, ?)");
+$stmt = $conn->prepare("INSERT INTO MainUsers (FirstName, LastName, Email, PhoneNumber, Password) VALUES (?, ?, ?, ?, ?)");
 $stmt->bind_param("sssss", $firstName, $lastName, $email, $phone, $pass);
 $stmt->execute();
 
