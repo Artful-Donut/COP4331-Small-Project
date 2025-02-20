@@ -17,7 +17,7 @@ if ($conn->connect_error)
 }
 else
 {
-    $stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM Users WHERE Email = ? AND Password = ?");
+    $stmt = $conn->prepare("SELECT ID, FirstName, LastName FROM MainUsers WHERE Email = ? AND Password = ?");
     $stmt->bind_param("ss", $inData['email'], $inData['password']);
     $stmt->execute();
     $result = $stmt->get_result();
