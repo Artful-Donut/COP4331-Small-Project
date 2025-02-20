@@ -1,9 +1,11 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
+/*
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
+*/
 
 // Handle preflight OPTIONS request
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
@@ -21,7 +23,8 @@ $ID = $inData["contactID"];
 $userId = $inData["accountID"];
 
 // Connection object declaration
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+//$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
 // Connection validation
 if($conn->connect_error)
