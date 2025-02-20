@@ -1,7 +1,7 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
 
-header("Access-Control-Allow-Origin: http://contact.afari.online/");
+header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
@@ -21,7 +21,7 @@ $firstName = "";
 $lastName = "";
 
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
-$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
+$conn = new mysqli("52.91.169.105", "poopoo", "peepee", "SMPROJ");
 
 if ($conn->connect_error)
 {
