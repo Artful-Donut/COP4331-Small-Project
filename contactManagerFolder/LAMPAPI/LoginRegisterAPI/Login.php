@@ -1,7 +1,7 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
 
-header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Origin: http://contact.afari.online/");
 header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
