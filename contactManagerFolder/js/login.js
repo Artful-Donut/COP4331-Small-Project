@@ -18,7 +18,8 @@ function doLogin(e) {
 
 	let tmp = { email: email, password: password };
 	let jsonPayload = JSON.stringify(tmp);
-	let url = "http://localhost/LAMPAPI/LoginRegisterAPI/Login.php";
+	//let url = "http://localhost/LAMPAPI/LoginRegisterAPI/Login.php";
+	let url = "http://contact.afari.online/contactManagerFolder/LAMPAPI/LoginRegisterAPI/Login.php";
 
 	let xhr = new XMLHttpRequest();
 	xhr.open("POST", url, true);
