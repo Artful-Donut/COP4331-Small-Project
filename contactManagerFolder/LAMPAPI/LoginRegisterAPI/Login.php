@@ -21,7 +21,7 @@ $firstName = "";
 $lastName = "";
 
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
-$conn = new mysqli("52.91.169.105", "poopoo", "peepee", "SMPROJ");
+$conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
 if ($conn->connect_error)
 {
