@@ -1,11 +1,11 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
-/*
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
-*/
+
 
 // Requesting incoming JSON object
 $inData = getRequestInfo();
