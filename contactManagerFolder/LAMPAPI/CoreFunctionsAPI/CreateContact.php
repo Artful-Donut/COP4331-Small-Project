@@ -27,7 +27,7 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (FullName, Email, UserID, Phone) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO Contacts (FullName, Email, ID, Phone) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssis", $fullName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement

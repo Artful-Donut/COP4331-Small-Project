@@ -31,7 +31,7 @@ if ($conn->connect_error)
 }
 
 // Check if the contact exists before updating
-$checkStmt = $conn->prepare("SELECT ID FROM Contacts WHERE ID = ? AND UserID = ?");
+$checkStmt = $conn->prepare("SELECT UniqueID FROM Contacts WHERE ID = ? AND UniqueID = ?");
 $checkStmt->bind_param("ii", $contactID, $accountID);
 $checkStmt->execute();
 $checkStmt->store_result();
@@ -44,7 +44,7 @@ if ($checkStmt->num_rows === 0)
 $checkStmt->close();
 
 // Prepare update statement
-$stmt = $conn->prepare("UPDATE Contacts SET FullName = ?, Email = ?, Phone = ? WHERE ID = ? AND UserID = ?");
+$stmt = $conn->prepare("UPDATE Contacts SET FullName = ?, Email = ?, Phone = ? WHERE ID = ? AND UniqueID = ?");
 $stmt->bind_param("sssii", $fullName, $email, $phone, $contactID, $accountID);
 
 // Execute query

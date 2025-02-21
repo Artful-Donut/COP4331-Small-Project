@@ -28,7 +28,7 @@ if ($conn->connect_error) {
 
 else {
     // Only filter by UserID for the initial fetch
-    $stmt = $conn->prepare("SELECT ID, FullName, Email, Phone FROM Contacts WHERE UserID = ?");
+    $stmt = $conn->prepare("SELECT UniqueID, FullName, Email, Phone FROM Contacts WHERE ID = ?");
 
     // Bind UserID as an Integer
     $stmt->bind_param("i", $inData["UserId"]);
