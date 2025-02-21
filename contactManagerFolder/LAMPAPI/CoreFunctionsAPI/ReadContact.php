@@ -1,6 +1,9 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, PUT, DELETE, OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -14,41 +17,33 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
     exit();
 }
 
-
 $inData = getRequestInfo();
 
-// Database Connection
-//$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+//sqli connection
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
 
-// Validate Connection
+//validate connection
 if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
-
-else {
-    // Only filter by UserID for the initial fetch
-    $stmt = $conn->prepare("SELECT UniqueID, FirstName, LastName, Email, Phone FROM Contacts WHERE ID = ?");
-
-    // Bind UserID as an Integer
+else{
+    $stmt = $conn->prepare("Select UniqueID, FirstName, LastName, Email, PhoneNumber FROM Contacts WHERE ID = ?");
     $stmt->bind_param("i", $inData["ID"]);
     $stmt->execute();
-
     $result = $stmt->get_result();
 
-    // Storing the results from the sql statement into our contacts array to be sent to the front end
+    //store results into array because of chance of multiple results from search
     $contacts = [];
     while ($row = $result->fetch_assoc()) {
         $contacts[] = [
             "id" => $row["UniqueID"],
             "FirstName" => $row["FirstName"],
+            "LastName" => $row["LastName"],
             "email" => $row["Email"],
-            "phone" => $row["Phone"]
+            "phone" => $row["PhoneNumber"]
         ];
     }
-
-    // Case where we have do not have any contacts associated with an account
-    if (empty($contacts)) {
+    if(empty($contacts)){
         returnWithError("No contacts found");
     }
     else
@@ -56,25 +51,15 @@ else {
         returnWithInfo($contacts);
     }
 
-    // Closing connections
+    // close connections
     $stmt->close();
     $conn->close();
 }
 
-// Helper Function to Get JSON Input
+//Gerber Helper Functions//
 function getRequestInfo()
 {
-    $jsonData = file_get_contents('php://input');
-    if (!$jsonData) {
-        die(json_encode(["error" => "No JSON input received"]));
-    }
-
-    $decodedData = json_decode($jsonData, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        die(json_encode(["error" => "Invalid JSON format: " . json_last_error_msg()]));
-    }
-
-    return $decodedData;
+    return json_decode(file_get_contents('php://input'), true);
 }
 
 // Helper Function to Return JSON Response
