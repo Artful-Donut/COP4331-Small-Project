@@ -45,7 +45,7 @@ if ($checkStmt->num_rows === 0)
 $checkStmt->close();
 
 // Prepare update statement
-$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, Email = ?, Phone = ? WHERE ID = ? AND UniqueID = ?");
+$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, Phone = ? WHERE ID = ? AND UniqueID = ?");
 $stmt->bind_param("ssssii", $firstName, $lastName, $email, $phone, $contactID, $accountID);
 
 // Execute query
