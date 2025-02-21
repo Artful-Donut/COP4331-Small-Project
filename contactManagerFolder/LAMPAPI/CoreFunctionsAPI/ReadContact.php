@@ -31,7 +31,7 @@ else {
     $stmt = $conn->prepare("SELECT UniqueID, FirstName, LastName, Email, Phone FROM Contacts WHERE ID = ?");
 
     // Bind UserID as an Integer
-    $stmt->bind_param("i", $inData["UserId"]);
+    $stmt->bind_param("i", $inData["ID"]);
     $stmt->execute();
 
     $result = $stmt->get_result();
