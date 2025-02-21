@@ -31,7 +31,7 @@ $pass = trim($inData["Password"]);
 //$hashedPassword = password_hash($pass, PASSWORD_BCRYPT);
 
 // Create database connection
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "root", "iSf7VogRMo0/", "lampTest");
 
 // If connection fails
 if ($conn->connect_error) {

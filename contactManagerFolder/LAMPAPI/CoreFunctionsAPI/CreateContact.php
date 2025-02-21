@@ -14,7 +14,7 @@ $email = $inData["email"];
 $userId = $inData["userId"];
 $phone = $inData["phone"];
 // Connection object that allows us to connect to our db
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "root", "iSf7VogRMo0/", "lampTest");
 
 if ($conn->connect_error)
 {

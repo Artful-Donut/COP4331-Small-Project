@@ -18,7 +18,8 @@ $id = 0;
 $firstName = "";
 $lastName = "";
 
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "root", "iSf7VogRMo0/", "lampTest");
+
 if ($conn->connect_error)
 {
     returnWithError($conn->connect_error);

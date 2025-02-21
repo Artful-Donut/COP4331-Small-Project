@@ -18,7 +18,7 @@ $phone = $inData["phone"];
 
 
 // Connection object declaration
-$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
+$conn = new mysqli("localhost", "root", "iSf7VogRMo0/", "lampTest");
 
 // Connection validation
 if ($conn->connect_error)

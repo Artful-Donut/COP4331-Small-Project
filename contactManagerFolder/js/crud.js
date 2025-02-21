@@ -36,7 +36,7 @@ function fetchContacts() {
     console.log(jsonPayload);
 
     // POST request to our db
-    fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/ReadContact.php", {
+    fetch("http://23.20.217.81/contactManagerFolder/LAMPAPI/LoginRegisterAPI/ReadContact.php", {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: jsonPayload
@@ -118,7 +118,7 @@ function createContact()
         let jsonPayload = JSON.stringify({fullName: fullName, email: email, phone: phone, userId: userId});
 
         // Initialize POST request
-        fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
+        fetch("http://23.20.217.81/contactManagerFolder/LAMPAPI/LoginRegisterAPI/CreateContact.php", {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: jsonPayload
@@ -160,7 +160,7 @@ function updateContact() {
             let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId, fullName: newFullName, email: newEmail, phone: newPhone });
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
-            fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
+            fetch("http://23.20.217.81/contactManagerFolder/LAMPAPI/LoginRegisterAPI/UpdateContact.php", {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: jsonPayload
@@ -209,7 +209,7 @@ function deleteContact()
             let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId });
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
-            fetch("http://localhost/LAMPAPI/CoreFunctionsAPI/DeleteContact.php", {
+            fetch("http://23.20.217.81/contactManagerFolder/LAMPAPI/LoginRegisterAPI/DeleteContact.php", {
                 method: 'DELETE',
                 headers: { 'Content-Type': 'application/json' },
                 body: jsonPayload

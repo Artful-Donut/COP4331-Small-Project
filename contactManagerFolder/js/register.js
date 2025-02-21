@@ -20,7 +20,8 @@ function addUser(event) {
 	let jsonPayload = JSON.stringify(tmp);
 
 	// API URL
-	let url = "http://localhost/LAMPAPI/LoginRegisterAPI/Register.php";
+	let url = "http://23.20.217.81/contactManagerFolder/LAMPAPI/LoginRegisterAPI/Register.php";
+
 
 	// Initialize XHR
 	let xhr = new XMLHttpRequest();
