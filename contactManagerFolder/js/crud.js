@@ -32,7 +32,7 @@ function fetchContacts() {
     }
 
     // Creating a json object to be sent to our Read API endpoint
-    let jsonPayload = JSON.stringify({ UserId: userId });
+    let jsonPayload = JSON.stringify({ ID: userId });
     console.log(jsonPayload);
 
     // POST request to our db
@@ -74,7 +74,7 @@ function displayContacts(contactArrayResponse) {
     contactArrayResponse.forEach((contact, index) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
-        div.textContent = contact.name || "No Name";
+        div.textContent = contact.FirstName || "No Name";
         div.onclick = () => displayContactDetails(contact, index);
         contactList.appendChild(div);
     });
@@ -90,7 +90,7 @@ function displayContactDetails(contact, index) {
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
-        <h2>${contact.name}</h2>
+        <h2>${contact.FirstName}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
         <p><span class="icon">📞</span> ${contact.phone}</p>`;
 }

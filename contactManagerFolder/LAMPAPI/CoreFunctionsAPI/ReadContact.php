@@ -40,8 +40,8 @@ else {
     $contacts = [];
     while ($row = $result->fetch_assoc()) {
         $contacts[] = [
-            "id" => $row["ID"],
-            "name" => $row["FullName"],
+            "id" => $row["UniqueID"],
+            "FirstName" => $row["FirstName"],
             "email" => $row["Email"],
             "phone" => $row["Phone"]
         ];
