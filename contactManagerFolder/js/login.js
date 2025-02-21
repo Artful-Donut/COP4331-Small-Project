@@ -15,6 +15,14 @@ function doLogin(e) {
 
 	let email = document.getElementById("email").value;
 	let password = document.getElementById("password").value;
+	let loginResult = document.getElementById("loginResult");
+
+	// check if email or password is empty
+	if (email === "" || password === "") {
+		loginResult.innerHTML = "Please enter both email and password";
+		loginResult.style.color = "red";
+		return;
+	}
 
 	let tmp = { email: email, password: password };
 	let jsonPayload = JSON.stringify(tmp);
@@ -31,7 +39,8 @@ function doLogin(e) {
 			let userId = jsonObject.id;
 
 			if (userId < 1) {
-				document.getElementById("loginResult").innerHTML = "User/Password combination incorrect";
+				loginResult.innerHTML = "Email and/or password are not correct";
+				loginResult.style.color = "red";
 				return;
 			}
 

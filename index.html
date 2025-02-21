@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Sign in - Contact Manager</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel = "stylesheet" href = "index.css">
+  <link rel = "stylesheet" href = "contactManagerFolder/css/index.css">
 </head>
 
 <body>
@@ -24,6 +24,8 @@
           <input type="password" class="form-control" id="password" placeholder="Password" required>
           <span class="password-toggle" onclick="togglePassword()">👀</span>
         </div>
+
+        <div id="loginResult" class="text-center mb-2" style="color: red;"></div>
 
         <button type="submit" class="btn btn-primary w-100 py-2" onclick="doLogin(event);">Sign in</button>
         
