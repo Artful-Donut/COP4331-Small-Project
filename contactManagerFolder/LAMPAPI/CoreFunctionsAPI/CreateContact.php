@@ -11,7 +11,8 @@ header("Content-Type: application/json");
 $inData = getRequestInfo();
 
 // Extracting values from JSON
-$fullName = $inData["fullName"];
+$firstName = $inData["firstName"];
+$lastName = $inData["lastName"];
 $email = $inData["email"];
 $userId = $inData["userId"];
 $phone = $inData["phone"];
@@ -27,8 +28,8 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (FullName, Email, ID, Phone) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("ssis", $fullName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
+    $stmt = $conn->prepare("INSERT INTO Contacts (FirstName,LastName, Email, ID, Phone) VALUES (?, ?, ?, ?)");
+    $stmt->bind_param("sssis", $firstName, $lastName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement
     if ($stmt->execute()) 

@@ -37,7 +37,7 @@ else
 {
     // Preparing SQL statement
     $stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=? AND UniqueID=?");
-    $stmt->bind_param("ii", $ID, $uniqueId); // Injecting params to SQL statement
+    $stmt->bind_param("ii", $ID, $userId); // Injecting params to SQL statement
 
     // Executing statement
     if($stmt->execute())

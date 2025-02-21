@@ -14,7 +14,8 @@ $inData = getRequestInfo();
 // Extracting JSON value
 $contactID = $inData["contactID"];
 $accountID = $inData["accountID"];
-$fullName = $inData["fullName"];
+$firstName = $inData["firstName"];
+$lastName = $inData["lastName"];
 $email = $inData["email"];
 $phone = $inData["phone"];
 
@@ -44,15 +45,15 @@ if ($checkStmt->num_rows === 0)
 $checkStmt->close();
 
 // Prepare update statement
-$stmt = $conn->prepare("UPDATE Contacts SET FullName = ?, Email = ?, Phone = ? WHERE ID = ? AND UniqueID = ?");
-$stmt->bind_param("sssii", $fullName, $email, $phone, $contactID, $accountID);
+$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, Email = ?, Phone = ? WHERE ID = ? AND UniqueID = ?");
+$stmt->bind_param("ssssii", $firstName, $lastName, $email, $phone, $contactID, $accountID);
 
 // Execute query
 if ($stmt->execute())
 {
     if ($stmt->affected_rows > 0)
     {
-        returnWithSuccess($fullName, $email, $phone);
+        returnWithSuccess($firstName,$lastName, $email, $phone);
     }
     else
     {
@@ -83,10 +84,11 @@ function returnWithError($err) {
     sendResultInfoAsJson(json_encode(["error" => $err]));
 }
 
-function returnWithSuccess($fullName, $email, $phone) {
+function returnWithSuccess($firstName, $lastName, $email, $phone) {
     sendResultInfoAsJson(json_encode([
         "message" => "Contact updated successfully!",
-        "FullName" => $fullName,
+        "FullName" => $firstName,
+        "LastName" => $lastName,
         "Email" => $email,
         "Phone" => $phone
     ]));
