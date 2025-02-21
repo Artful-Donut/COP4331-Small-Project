@@ -18,7 +18,7 @@ $inData = getRequestInfo();
 $firstName = $inData["firstName"];
 $lastName = $inData["lastName"];
 $email = $inData["email"];
-$userId = $inData["userId"];
+$MainUserId = $inData["MainUserID"];
 $phone = $inData["phone"];
 // Connection object that allows us to connect to our db
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
@@ -32,15 +32,15 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (FirstName,LastName, Email, ID, Phone) VALUES (?, ?, ?, ?)");
-    $stmt->bind_param("sssis", $firstName, $lastName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
+    $stmt = $conn->prepare("INSERT INTO Contacts (ID,FirstName,LastName, Email, Phone,) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("issss",$MainUserId, $firstName, $lastName, $email, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement
     if ($stmt->execute())
     {
         // Success case - Get generated id on the most recently created user to send to the front end
-        $newId = $conn->insert_id;
-        returnWithSuccess($newId);
+        $newUniqueId = $conn->insert_id;
+        returnWithSuccess($newUniqueId);
     }
 
     // Fail case - return an error response object to the front end
@@ -69,8 +69,9 @@ function returnWithError($err) {
     sendResultInfoAsJson($retValue);
 }
 
-function returnWithSuccess($newId) {
-    $retValue = json_encode(array("message" => "Contact created successfully", "contactId" => $newId));
+function returnWithSuccess($newUniqueId) {
+    $retValue = json_encode(array("message" => "Contact created successfully", "contactId" => $newUniqueId
+    ));
     sendResultInfoAsJson($retValue);
 }
 ?>
