@@ -59,7 +59,7 @@ function addUser(event) {
 				if (jsonObject.error) {
 					alert("Error: " + jsonObject.error);
 				} else {
-					alert("User registered successfully!");
+					// alert("User registered successfully!");
 					handleRegisterSuccess(jsonObject.id);
 				}
 			} else {
