@@ -56,17 +56,7 @@ else{
 //Gerber Helper Functions//
 function getRequestInfo()
 {
-    $jsonData = file_get_contents('php://input');
-    if (!$jsonData) {
-        die(json_encode(["error" => "No JSON input received"]));
-    }
-
-    $decodedData = json_decode($jsonData, true);
-    if (json_last_error() !== JSON_ERROR_NONE) {
-        die(json_encode(["error" => "Invalid JSON format: " . json_last_error_msg()]));
-    }
-
-    return $decodedData;
+    return json_decode(file_get_contents('php://input'), true);
 }
 
 // Helper Function to Return JSON Response
