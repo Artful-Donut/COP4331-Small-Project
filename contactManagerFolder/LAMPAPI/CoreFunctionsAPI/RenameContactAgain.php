@@ -27,7 +27,7 @@ if ($conn->connect_error) {
     die(json_encode(["error" => "Database connection failed: " . $conn->connect_error]));
 }
 else{
-    $stmt = $conn->prepare("Select UniqueID, FirstName, LastName, Email, Phone FROM Contacts WHERE ID = ?");
+    $stmt = $conn->prepare("Select UniqueID, FirstName, LastName, Email, PhoneNumber FROM Contacts WHERE ID = ?");
     $stmt->bind_param("i", $inData["ID"]);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -40,7 +40,7 @@ else{
             "FirstName" => $row["FirstName"],
             "LastName" => $row["LastName"],
             "email" => $row["Email"],
-            "phone" => $row["Phone"]
+            "phone" => $row["PhoneNumber"]
         ];
     }
     if(empty($contacts)){
