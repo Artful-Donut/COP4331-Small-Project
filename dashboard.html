@@ -13,8 +13,8 @@
         <div class="sidebar">
             <input type="text" class="search-box" placeholder="Search contacts...">
             <button class="button" onclick="createContact()">➕ Add Contact</button>
-            <div class="contact-list" id="contactList"></div>
             <button class="logout-button" onclick="logout()">🚪Logout</button>
+            <div class="contact-list" id="contactList"></div>
         </div>
 
         <div class="details" id="contactDetails">
@@ -34,7 +34,7 @@
 
             <div id="contactInfo" style="display: none;">
                 <h2 id="contactName">Select a Contact</h2>
-                <p><span class="icon">🙋‍♂️</span> <span id="contactname">Name</span></p>
+                <!-- <p><span class="icon">🙋‍♂️</span> <span id="contactname">Name</span></p> -->
                 <p><span class="icon">📧</span> <span id="email">Email</span></p>
                 <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
             </div>
@@ -57,15 +57,15 @@
             document.getElementById("contactActions").style.display = "none";
         }
 
-        function showContact(name, email, phone) {
-            document.getElementById("contactName").textContent = name;
-            document.getElementById("email").textContent = email;
-            document.getElementById("phone").textContent = phone;
+        // function showContact(name, email, phone) {
+        //     document.getElementById("contactName").textContent = name;
+        //     document.getElementById("email").textContent = email;
+        //     document.getElementById("phone").textContent = phone;
             
-            document.getElementById("emptyState").style.display = "none"; // Hide sleeping panda
-            document.getElementById("contactInfo").style.display = "block";
-            document.getElementById("contactActions").style.display = "block";
-        }
+        //     document.getElementById("emptyState").style.display = "none"; // Hide sleeping panda
+        //     document.getElementById("contactInfo").style.display = "block";
+        //     document.getElementById("contactActions").style.display = "block";
+        // }
 
         function logout() {
             document.cookie = "accountID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
