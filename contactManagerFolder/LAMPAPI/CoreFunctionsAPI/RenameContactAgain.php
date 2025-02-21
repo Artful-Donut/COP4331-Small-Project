@@ -32,7 +32,7 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (ID,FirstName,LastName, Email, Phone,) VALUES (?, ?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO Contacts (ID,FirstName,LastName, Email, PhoneNumber,) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("issss",$MainUserId, $firstName, $lastName, $email, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement
