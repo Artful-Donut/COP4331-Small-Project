@@ -1,39 +1,105 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Contact Manager</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="contactManagerFolder/css/dashboard.css">
 </head>
+
 <body>
-<div class="container">
-    <div class="sidebar">
-        <input type="text" class="search-box" placeholder="Search contacts...">
-        <button class="button" onclick="createContact()">Add Contact</button>
-        <div class="contact-list" id="contactList"></div>
-    </div>
-
-    <div class="details" id="contactDetails">
-        <div class="action-buttons">
-            <button onclick="updateContact()">✏️ Edit</button>
-            <button onclick="deleteContact()">🗑️ Delete</button>
+    <div class="container">
+        <div class="sidebar">
+            <input type="text" class="search-box" placeholder="Search contacts...">
+            <button class="button" onclick="showAddContactForm()">➕ Add Contact</button>
+            <button class="logout-button" onclick="logout()">🚪Logout</button>
+            <div class="contact-list" id="contactList"></div>
         </div>
-        <h2>Select a Contact</h2>
-        <p><span class="icon">📧</span> <span id="email">Email</span></p>
-        <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
+
+        <div class="details" id="contactDetails">
+            <!-- NEW: Add Contact Form (Hidden Initially) -->
+            <div id="addContactForm" class="form-container" style="display: none;">
+                <!-- <h2>Add New Contact</h2> -->
+                <h3 class="text-center mb-3">Add New Contact</h3>
+                <form onsubmit="createContact(event)">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_FirstName" id="newContact_FirstName" placeholder="First Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_LastName" id="newContact_LastName" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="newContactEmail" id="newContactEmail" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="tel" class="form-control" name="newContactPhone" id="newContactPhone" placeholder="Phone Number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">Save Contact</button>
+                    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="cancelAddContact()">Cancel</button>
+                </form>
+            </div>
+
+            <div class="action-buttons" id="contactActions" style="display: none;">
+                <button onclick="updateContact()">✏️ Edit</button>
+                <button onclick="deleteContact()">🗑️ Delete</button>
+            </div>
+
+            <!-- <h2>Select a Contact</h2>
+            <p><span class="icon">📧</span> <span id="email">Email</span></p>
+            <p><span class="icon">📞</span> <span id="phone">Phone</span></p> -->
+
+            <div id="emptyState" class="empty-state">
+                <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                <p>Select a contact or add a new one</p>
+            </div>
+
+            <div id="contactInfo" style="display: none;">
+                <h2 id="contactName">Select a Contact</h2>
+                <!-- <p><span class="icon">🙋‍♂️</span> <span id="contactname">Name</span></p> -->
+                <p><span class="icon">📧</span> <span id="email">Email</span></p>
+                <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
+            </div>
+        </div>
     </div>
-</div>
 
-<!-- Link to External JavaScript File -->
-<script src="contactManagerFolder/js/utils.js"></script>
-<script src="contactManagerFolder/js/crud.js"></script>
+    <!-- Link to External JavaScript File -->
+    <script src="contactManagerFolder/js/utils.js"></script>
+    <script src="contactManagerFolder/js/crud.js"></script>
 
-<script>
-    window.onload = function() {
-        fetchContacts(); // Call immediately when page loads to display an accounts contacts
-    };
-</script>
+    <script>
+        window.onload = function () {
+            fetchContacts(); // Call immediately when page loads to display an accounts contacts
+            showEmptyState();
+        };
+
+        function showEmptyState() {
+            document.getElementById("emptyState").style.display = "block";
+            document.getElementById("contactInfo").style.display = "none";
+            document.getElementById("contactActions").style.display = "none";
+        }
+
+        // function showContact(name, email, phone) {
+        //     document.getElementById("contactName").textContent = name;
+        //     document.getElementById("email").textContent = email;
+        //     document.getElementById("phone").textContent = phone;
+            
+        //     document.getElementById("emptyState").style.display = "none"; // Hide sleeping panda
+        //     document.getElementById("contactInfo").style.display = "block";
+        //     document.getElementById("contactActions").style.display = "block";
+        // }
+
+        function logout() {
+            document.cookie = "accountID=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+            window.location.href = "index.html";
+        }
+    </script>
 
 </body>
+
 </html>

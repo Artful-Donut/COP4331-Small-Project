@@ -1,8 +1,6 @@
 // Controller level for calling API endpoints in LAMP API
 
 
-
-
 // User attributes
 // let ID = 0;
 // let fullName = "";
@@ -16,8 +14,6 @@ let selectedContact = null; // Track selected contact index
 
 // Function for fetching the contacts 
 let contactArray = [];
-
-
 
 function fetchContacts() {
 
@@ -57,8 +53,6 @@ function fetchContacts() {
 }
 
 
-
-
 // Function for displaying contacts from API request
 function displayContacts(contactArrayResponse) {
     // Check if input is an array
@@ -74,7 +68,7 @@ function displayContacts(contactArrayResponse) {
     contactArrayResponse.forEach((contact, index) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
-        div.textContent = contact.FirstName || "No Name";
+        div.textContent = (contact.FirstName + " " + contact.LastName) || "No Name";
         div.onclick = () => displayContactDetails(contact, index);
         contactList.appendChild(div);
     });
@@ -90,9 +84,28 @@ function displayContactDetails(contact, index) {
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
-        <h2>${contact.FirstName}</h2>
+        <h2>${contact.FirstName + " " + contact.LastName}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
         <p><span class="icon">📞</span> ${contact.phone}</p>`;
+}
+
+// Show the "Add Contact" form in the right panel
+function showAddContactForm() {
+    document.getElementById("addContactForm").style.display = "block";
+    document.getElementById("emptyState").style.display = "none";
+    document.getElementById("contactInfo").style.display = "none";
+
+    // Clear input fields when opening the form
+    document.getElementById("newContact_FirstName").value = "";
+    document.getElementById("newContact_LastName").value = "";
+    document.getElementById("newContactEmail").value = "";
+    document.getElementById("newContactPhone").value = "";
+}
+
+// Hide the form and return to the default state
+function cancelAddContact() {
+    document.getElementById("addContactForm").style.display = "none";
+    document.getElementById("emptyState").style.display = "block";
 }
 
 
@@ -100,44 +113,83 @@ function displayContactDetails(contact, index) {
 
 
 // Function for contact Creation
-function createContact()
+function createContact(event)
 {
+    // Preventing form reload
+	event.preventDefault();
+    
     // We prompt the user to create a new contact and enter relevant information about a contact
-    const fullName = prompt("Enter contact name:");
-    const email = prompt("Enter contact email:");
-    const phone = prompt("Enter contact phone:");
+    // const fullName = prompt("Enter contact name:");
+    // const email = prompt("Enter contact email:");
+    // const phone = prompt("Enter contact phone:");
+
+    let firstName = document.getElementById("newContact_FirstName").value;
+	let lastName = document.getElementById("newContact_LastName").value;
+	let email = document.getElementById("newContactEmail").value;
+	let phone = document.getElementById("newContactPhone").value;
+    let userId = getCookie('accountID');
 
     // Checking to see ifn any of the values or null, if they are -> we can alert the user that all fields need to be present
-    if (fullName && email && phone)
-    {
+    // if (fullName && email && phone) {
 
-        // After we grab the data -> Persist it to the database
-        let userId = getCookie('accountID'); // -> NEEDS to not be hardcoded (use getCookie() function)
+    //     // After we grab the data -> Persist it to the database
+    //     let userId = getCookie('accountID'); // -> NEEDS to not be hardcoded (use getCookie() function)
 
-        // Creating JSON object of data we retrieved
-        let jsonPayload = JSON.stringify({fullName: fullName, email: email, phone: phone, userId: userId});
+    //     // Creating JSON object of data we retrieved
+    //     let jsonPayload = JSON.stringify({ fullName: fullName, email: email, phone: phone, userId: userId });
 
-        // Initialize POST request
-        fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: jsonPayload
-        })
-        // Handling the data we get sent back
+    //     // Initialize POST request
+    //     fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
+    //         method: 'POST',
+    //         headers: { 'Content-Type': 'application/json' },
+    //         body: jsonPayload
+    //     })
+    //         // Handling the data we get sent back
+    //         .then(response => response.json())
+    //         .then(data => {
+    //             if (data.error) {
+    //                 alert("Error creating contacts: " + data.error);
+    //             } else {
+    //                 alert("Contact with contact id: " + data.contactid + " has been created successfully");
+    //                 fetchContacts();
+    //             }
+    //         })
+    //         .catch(error => {
+    //             console.error("Error creating contacts:", error);
+    //         });
+    // }
+
+    if (firstName === "" || lastName === "" || email === "" || phone === "") {
+        alert("Please fill in all fields.");
+        return;
+    }    
+
+    // Create payload
+	let tmp = {
+		FirstName: firstName,
+		LastName: lastName,
+		Email: email,
+		PhoneNumber: phone,
+        ID: userId
+	};
+	let jsonPayload = JSON.stringify(tmp);
+
+    fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonPayload
+    })
     .then(response => response.json())
-        .then(data => {
-            if (data.error) {
-                alert("Error creating contacts: " + data.error);
-            } else {
-                alert("Contact with contact id: " + data.contactid + " has been created successfully");
-                fetchContacts();
-            }
-        })
-        .catch(error => {
-            console.error("Error creating contacts:", error);
-        });
+    .then(data => {
+        if (data.error) {
+            alert("Error creating contacts: " + data.error);
+        } else {
+            alert("Contact with contact id: " + data.contactid + " has been created successfully");
+            cancelAddContact();
+            fetchContacts();
         }
-
+    })
+    .catch(error => console.error("Error creating contacts:", error));
 }
 
 // Function for updating a contact
@@ -187,7 +239,6 @@ function updateContact() {
         alert("Please select a contact first!");
     }
 }
-
 
 
 // Function for deleting a contact
@@ -244,10 +295,6 @@ function deleteContact()
         alert("Please select a contact first!");
     }
 }
-
-
-
-
 
 
 // Initial rendering

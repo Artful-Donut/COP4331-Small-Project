@@ -6,16 +6,17 @@ header("Access-Control-Allow-Methods: POST, GET, DELETE OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-
 // Requesting incoming JSON object
 $inData = getRequestInfo();
 
-// Extracting values from JSON
-$firstName = $inData["firstName"];
-$lastName = $inData["lastName"];
-$email = $inData["email"];
-$userId = $inData["userId"];
-$phone = $inData["phone"];
+// Extracting and sanitizing values from JSON
+$firstName = trim($inData["FirstName"]);
+$lastName = trim($inData["LastName"]);
+$email = strtolower(trim($inData["Email"]));
+$phone = trim($inData["PhoneNumber"]);
+$userId = trim($inData["ID"]);
+
+
 // Connection object that allows us to connect to our db
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
@@ -28,7 +29,7 @@ if ($conn->connect_error)
 else
 {
     // Preparing sql statement to be executed on our DB
-    $stmt = $conn->prepare("INSERT INTO Contacts (FirstName,LastName, Email, ID, Phone) VALUES (?, ?, ?, ?)");
+    $stmt = $conn->prepare("INSERT INTO Contacts (FirstName, LastName, Email, ID, PhoneNumber) VALUES (?, ?, ?, ?, ?)");
     $stmt->bind_param("sssis", $firstName, $lastName, $email, $userId, $phone); // Binding our parameters to the ? arguments in the SQL statement
 
     // Executing statement
