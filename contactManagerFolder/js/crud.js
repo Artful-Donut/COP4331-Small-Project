@@ -68,7 +68,7 @@ function displayContacts(contactArrayResponse) {
     contactArrayResponse.forEach((contact, index) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
-        div.textContent = contact.FirstName || "No Name";
+        div.textContent = (contact.FirstName + contact.LastName) || "No Name";
         div.onclick = () => displayContactDetails(contact, index);
         contactList.appendChild(div);
     });
@@ -84,7 +84,7 @@ function displayContactDetails(contact, index) {
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
-        <h2>${contact.FirstName}</h2>
+        <h2>${contact.FirstName + contact.LastName}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
         <p><span class="icon">📞</span> ${contact.phone}</p>`;
 }
@@ -94,6 +94,12 @@ function showAddContactForm() {
     document.getElementById("addContactForm").style.display = "block";
     document.getElementById("emptyState").style.display = "none";
     document.getElementById("contactInfo").style.display = "none";
+
+    // Clear input fields when opening the form
+    document.getElementById("newContact_FirstName").value = "";
+    document.getElementById("newContact_LastName").value = "";
+    document.getElementById("newContactEmail").value = "";
+    document.getElementById("newContactPhone").value = "";
 }
 
 // Hide the form and return to the default state
@@ -121,7 +127,7 @@ function createContact(event)
 	let lastName = document.getElementById("newContact_LastName").value;
 	let email = document.getElementById("newContactEmail").value;
 	let phone = document.getElementById("newContactPhone").value;
-    let userId = getCookie("accountID");
+    let userId = getCookie('accountID');
 
     // Checking to see ifn any of the values or null, if they are -> we can alert the user that all fields need to be present
     // if (fullName && email && phone) {
@@ -164,14 +170,14 @@ function createContact(event)
 		lastName: lastName,
 		email: email,
 		phone: phone,
-        userId: userId,
+        userId: userId
 	};
 	let jsonPayload = JSON.stringify(tmp);
 
     fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/CreateContact.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: jsonPayload,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonPayload
     })
     .then(response => response.json())
     .then(data => {
