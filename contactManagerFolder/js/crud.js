@@ -245,21 +245,19 @@ function updateContact() {
 
 // Function for deleting a contact
 // Function for deleting a contact
-function deleteContact()
-{
-    if (selectedContact !== null)
-    {
-        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].name}?`);
-        if (confirmDelete)
-        {
+function deleteContact() {
+    if (selectedContact !== null) {
+        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].FirstName + " " + contactArray[selectedContact].LastName}?`);
+        if (confirmDelete) {
             // Defining user id of the current user we are logged into
             let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
-            let ID = contactArray[selectedContact].id;
+            // let ID = contactArray[selectedContact].id;
+            let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId });
+            let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId });
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
             fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/DeleteContact.php", {
@@ -269,10 +267,8 @@ function deleteContact()
             })
                 // Handling the data we get sent back
                 .then(response => response.json())
-                .then(data =>
-                {
-                    if (data.error)
-                    {
+                .then(data => {
+                    if (data.error) {
                         alert("Error carrying out Delete request: " + data.error);
                     }
                     else {
@@ -281,9 +277,10 @@ function deleteContact()
                         alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
                         // Clearing contact details
-                        contactDetails.innerHTML = `<h2>Select a Contact</h2>
-                <p><span class="icon">📧</span> Email</p>
-                <p><span class="icon">📞</span> Phone</p>`;
+                        // contactDetails.innerHTML = `<h2>Select a Contact</h2>
+                        // <p><span class="icon">📧</span> Email</p>
+                        // <p><span class="icon">📞</span> Phone</p>`;
+                        showEmptyState();
 
                     }
                 })
@@ -292,10 +289,15 @@ function deleteContact()
                 });
         }
     }
-    else
-    {
+    else {
         alert("Please select a contact first!");
     }
+}
+
+function showEmptyState() {
+    document.getElementById("emptyState").style.display = "block";
+    document.getElementById("contactInfo").style.display = "none";
+    document.getElementById("contactActions").style.display = "none";
 }
 
 

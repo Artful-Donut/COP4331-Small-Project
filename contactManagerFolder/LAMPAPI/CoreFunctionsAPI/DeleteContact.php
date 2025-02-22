@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS')
 $inData = getRequestInfo();
 
 // Extracting JSON value
-$ID = $inData["contactID"];
+$contactId = $inData["contactID"];
 $userId = $inData["accountID"];
 
 // Connection object declaration
@@ -36,8 +36,8 @@ if($conn->connect_error)
 else
 {
     // Preparing SQL statement
-    $stmt = $conn->prepare("DELETE FROM Contacts WHERE ID=? AND UniqueID=?");
-    $stmt->bind_param("ii", $ID, $userId); // Injecting params to SQL statement
+    $stmt = $conn->prepare("DELETE FROM Contacts WHERE UniqueID=? AND ID=?");
+    $stmt->bind_param("ii", $contactId, $userId); // Injecting params to SQL statement
 
     // Executing statement
     if($stmt->execute())
