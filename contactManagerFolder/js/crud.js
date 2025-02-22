@@ -121,6 +121,7 @@ function createContact(event)
 	let lastName = document.getElementById("newContact_LastName").value;
 	let email = document.getElementById("newContactEmail").value;
 	let phone = document.getElementById("newContactPhone").value;
+    let userId = getCookie("accountID");
 
     // Checking to see ifn any of the values or null, if they are -> we can alert the user that all fields need to be present
     // if (fullName && email && phone) {
@@ -155,16 +156,14 @@ function createContact(event)
     if (firstName === "" || lastName === "" || email === "" || phone === "") {
         alert("Please fill in all fields.");
         return;
-    }
-
-    let userId = getCookie('accountID');
+    }    
 
     // Create payload
 	let tmp = {
-		FirstName: firstName,
-		LastName: lastName,
-		Email: email,
-		PhoneNumber: phone,
+		firstName: firstName,
+		lastName: lastName,
+		email: email,
+		phone: phone,
         userId: userId,
 	};
 	let jsonPayload = JSON.stringify(tmp);

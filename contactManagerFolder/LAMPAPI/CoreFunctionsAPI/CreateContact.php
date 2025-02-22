@@ -1,6 +1,7 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
 
+
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
@@ -14,8 +15,8 @@ $inData = getRequestInfo();
 $firstName = $inData["firstName"];
 $lastName = $inData["lastName"];
 $email = $inData["email"];
-$userId = $inData["userId"];
 $phone = $inData["phone"];
+$userId = $inData["userId"];
 // Connection object that allows us to connect to our db
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
