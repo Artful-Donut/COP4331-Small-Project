@@ -39,7 +39,7 @@ function doLogin(e) {
 			let userId = jsonObject.id;
 
 			if (userId < 1) {
-				loginResult.innerHTML = "Email and/or password are not correct";
+				loginResult.innerHTML = "Email/password combination is not correct";
 				loginResult.style.color = "red";
 				return;
 			}

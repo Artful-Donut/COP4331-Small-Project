@@ -199,8 +199,8 @@ function updateContact() {
         // Gathering data for new contact details
         const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
         const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
-        const newEmail = prompt("Enter new email:", contactArray[selectedContact].Email);
-        const newPhone = prompt("Enter new phone:", contactArray[selectedContact].PhoneNumber);
+        const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
+        const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
 
         if (newFirstName && newLastName && newEmail && newPhone) {
 
@@ -229,9 +229,10 @@ function updateContact() {
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
-                        cancelAddContact();
                         fetchContacts();
-                        alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
+                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
+
+                        // ***
 
                     }
                 })
@@ -275,7 +276,6 @@ function deleteContact() {
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
-                        cancelAddContact();
                         fetchContacts();
                         // alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
