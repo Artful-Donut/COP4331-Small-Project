@@ -166,11 +166,11 @@ function createContact(event)
 
     // Create payload
 	let tmp = {
-		firstName: firstName,
-		lastName: lastName,
-		email: email,
-		phone: phone,
-        userId: userId
+		FirstName: firstName,
+		LastName: lastName,
+		Email: email,
+		PhoneNumber: phone,
+        ID: userId
 	};
 	let jsonPayload = JSON.stringify(tmp);
 

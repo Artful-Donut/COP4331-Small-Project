@@ -1,25 +1,22 @@
 <?php
 // Allow CORS (Enable cross-origin requests)
 
-
 header("Access-Control-Allow-Origin: *");
 header("Access-Control-Allow-Methods: POST, GET, DELETE OPTIONS");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Content-Type: application/json");
 
-
 // Requesting incoming JSON object
 $inData = getRequestInfo();
 
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+// Extracting and sanitizing values from JSON
+$firstName = trim($inData["FirstName"]);
+$lastName = trim($inData["LastName"]);
+$email = strtolower(trim($inData["Email"]));
+$phone = trim($inData["PhoneNumber"]);
+$userId = trim($inData["ID"]);
 
-// Extracting values from JSON
-$firstName = $inData["firstName"];
-$lastName = $inData["lastName"];
-$email = $inData["email"];
-$phone = $inData["phone"];
-$userId = $inData["userId"];
+
 // Connection object that allows us to connect to our db
 //$conn = new mysqli("23.20.217.81", "root", "iSf7VogRMo0/", "lampTest");
 $conn = new mysqli("localhost", "poopoo", "peepee", "SMPROJ");
