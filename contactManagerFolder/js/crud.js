@@ -285,7 +285,7 @@ function deleteContact() {
                         <div id="addContactForm" class="form-container" style="display: none;"> ... </div>
                         <div class="action-buttons" id="contactActions" style="display: none;"> ... </div>
                         <div id="emptyState" class="empty-state">
-                            <img src="contactManagerFolder/images/delete-cat.jpg" ... />
+                            <img src="contactManagerFolder/images/delete-cat.png" ... />
                             <p>Select a contact or add a new one</p>
                         </div>
                         <div id="contactInfo" style="display: none;"> ... </div>
