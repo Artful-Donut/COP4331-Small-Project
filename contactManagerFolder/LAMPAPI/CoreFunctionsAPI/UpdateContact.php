@@ -1,7 +1,7 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+// error_reporting(E_ALL);
+// ini_set('display_errors', 1);
 
 // Allow CORS (Enable cross-origin requests)
 
@@ -35,7 +35,7 @@ if ($conn->connect_error)
 }
 
 // Check if the contact exists before updating
-$checkStmt = $conn->prepare("SELECT UniqueID FROM Contacts WHERE ID = ? AND UniqueID = ?");
+$checkStmt = $conn->prepare("SELECT UniqueID FROM Contacts WHERE UniqueId = ? AND ID = ?");
 $checkStmt->bind_param("ii", $contactID, $accountID);
 $checkStmt->execute();
 $checkStmt->store_result();
@@ -48,7 +48,7 @@ if ($checkStmt->num_rows === 0)
 $checkStmt->close();
 
 // Prepare update statement
-$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, PhoneNumber = ? WHERE ID = ? AND UniqueID = ?");
+$stmt = $conn->prepare("UPDATE Contacts SET FirstName = ?, LastName = ?, Email = ?, PhoneNumber = ? WHERE UniqueID = ? AND ID = ?");
 $stmt->bind_param("ssssii", $firstName, $lastName, $email, $phone, $contactID, $accountID);
 
 // Execute query
