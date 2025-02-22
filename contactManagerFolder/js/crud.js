@@ -79,14 +79,27 @@ function displayContacts(contactArrayResponse) {
 // Function for displaying details about a contact within a window
 function displayContactDetails(contact, index) {
     selectedContact = index;
-    contactDetails.innerHTML = `
-        <div class="action-buttons">
-            <button onclick="updateContact()">✏️ Edit</button>
-            <button onclick="deleteContact()">🗑️ Delete</button>
-        </div>
-        <h2>${contact.FirstName + " " + contact.LastName}</h2>
-        <p><span class="icon">📧</span> ${contact.email}</p>
-        <p><span class="icon">📞</span> ${contact.phone}</p>`;
+
+    // contactDetails.innerHTML = `
+    //     <div class="action-buttons">
+    //         <button onclick="updateContact()">✏️ Edit</button>
+    //         <button onclick="deleteContact()">🗑️ Delete</button>
+    //     </div>
+    //     <h2>${contact.FirstName + " " + contact.LastName}</h2>
+    //     <p><span class="icon">📧</span> ${contact.email}</p>
+    //     <p><span class="icon">📞</span> ${contact.phone}</p>`;
+
+    // Hide empty state
+    document.getElementById("emptyState").style.display = "none";
+
+    // Show the contact info section
+    document.getElementById("contactInfo").style.display = "block";
+    document.getElementById("contactActions").style.display = "block";
+    
+    // Update the text content
+    document.getElementById("contactName").textContent = contact.FirstName + " " + contact.LastName;
+    document.getElementById("email").textContent = contact.Email;
+    document.getElementById("phone").textContent = contact.Phone;
 }
 
 // Show the "Add Contact" form in the right panel
@@ -274,13 +287,29 @@ function deleteContact() {
                     else {
                         // Update local data after receiving a successful response from the server via fetch
                         fetchContacts();
-                        alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
+                        showEmptyState();
+                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
                         // Clearing contact details
                         // contactDetails.innerHTML = `<h2>Select a Contact</h2>
                         // <p><span class="icon">📧</span> Email</p>
                         // <p><span class="icon">📞</span> Phone</p>`;
-                        showEmptyState();
+                        contactDetails.innerHTML = `
+                        <div id="addContactForm" class="form-container" style="display: none;"> ... </div>
+                        <div class="action-buttons" id="contactActions" style="display: none;"> ... </div>
+                        <div id="emptyState" class="empty-state">
+                            <img src="contactManagerFolder/images/delete-cat.jpg" ... />
+                            <p>Select a contact or add a new one</p>
+                        </div>
+                        <div id="contactInfo" style="display: none;"> ... </div>
+                        `;
+
+                        /*
+                        <div id="emptyState" class="empty-state">
+                            <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                            <p>Select a contact or add a new one</p>
+                        </div>
+                        */
 
                     }
                 })
@@ -293,13 +322,6 @@ function deleteContact() {
         alert("Please select a contact first!");
     }
 }
-
-function showEmptyState() {
-    document.getElementById("emptyState").style.display = "block";
-    document.getElementById("contactInfo").style.display = "none";
-    document.getElementById("contactActions").style.display = "none";
-}
-
 
 // Initial rendering
 fetchContacts();
