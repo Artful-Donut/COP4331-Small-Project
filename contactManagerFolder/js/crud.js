@@ -68,7 +68,7 @@ function displayContacts(contactArrayResponse) {
     contactArrayResponse.forEach((contact, index) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
-        div.textContent = (contact.FirstName + contact.LastName) || "No Name";
+        div.textContent = (contact.FirstName + " " + contact.LastName) || "No Name";
         div.onclick = () => displayContactDetails(contact, index);
         contactList.appendChild(div);
     });
@@ -84,7 +84,7 @@ function displayContactDetails(contact, index) {
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
-        <h2>${contact.FirstName + contact.LastName}</h2>
+        <h2>${contact.FirstName + " " + contact.LastName}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
         <p><span class="icon">📞</span> ${contact.phone}</p>`;
 }
