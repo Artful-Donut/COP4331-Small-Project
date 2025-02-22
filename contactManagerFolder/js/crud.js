@@ -229,6 +229,7 @@ function updateContact() {
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
+                        cancelAddContact();
                         fetchContacts();
                         alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
 
@@ -274,6 +275,7 @@ function deleteContact() {
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
+                        cancelAddContact();
                         fetchContacts();
                         // alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
@@ -281,21 +283,30 @@ function deleteContact() {
                         // contactDetails.innerHTML = `<h2>Select a Contact</h2>
                         // <p><span class="icon">📧</span> Email</p>
                         // <p><span class="icon">📞</span> Phone</p>`;
-                        contactDetails.innerHTML = `
-                        <div id="addContactForm" class="form-container" style="display: none;"> ... </div>
-                        <div class="action-buttons" id="contactActions" style="display: none;"> ... </div>
-                        <div id="emptyState" class="empty-state">
-                            <img src="contactManagerFolder/images/delete-cat.png" ... />
-                            <p>Select a contact or add a new one</p>
-                        </div>
-                        <div id="contactInfo" style="display: none;"> ... </div>
-                        `;
+                        // contactDetails.innerHTML = `
+                        //     <div id="addContactForm" class="form-container" style="display: none;"> ... </div>
+                        //     <div class="action-buttons" id="contactActions" style="display: none;"> ... </div>
+                        //     <div id="emptyState" class="empty-state">
+                        //         <img src="contactManagerFolder/images/delete-cat.png" ... />
+                        //         <p>Select a contact or add a new one</p>
+                        //     </div>
+                        //     <div id="contactInfo" style="display: none;"> ... </div>
+                        // `;
 
                         /*
                         <div id="emptyState" class="empty-state">
                             <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
                             <p>Select a contact or add a new one</p>
                         </div>
+
+                        contactDetails.innerHTML = `
+                            <div class="action-buttons">
+                                <button onclick="updateContact()">✏️ Edit</button>
+                                <button onclick="deleteContact()">🗑️ Delete</button>
+                            </div>
+                            <h2>${contact.FirstName + " " + contact.LastName}</h2>
+                            <p><span class="icon">📧</span> ${contact.email}</p>
+                            <p><span class="icon">📞</span> ${contact.phone}</p>`;
                         */
 
                     }
