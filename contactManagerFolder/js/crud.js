@@ -41,14 +41,14 @@ function fetchContacts() {
         .then(response => response.json())
         .then(data => {
             if (data.error) {
-                alert("Error fetching contacts: " + data.error);
+                // alert("Error fetching contacts: " + data.error);
             } else {
                 contactArray = data.results;
                 displayContacts(contactArray); // Display contacts from API call
             }
         })
         .catch(error => {
-            console.error("Error fetching contacts:", error);
+            // console.error("Error fetching contacts:", error);
         });
 }
 
@@ -79,6 +79,7 @@ function displayContacts(contactArrayResponse) {
 // Function for displaying details about a contact within a window
 function displayContactDetails(contact, index) {
     selectedContact = index;
+
     contactDetails.innerHTML = `
         <div class="action-buttons">
             <button onclick="updateContact()">✏️ Edit</button>
@@ -184,7 +185,7 @@ function createContact(event)
         if (data.error) {
             alert("Error creating contacts: " + data.error);
         } else {
-            alert("Contact with contact id: " + data.contactid + " has been created successfully");
+            // alert("Contact with contact id: " + data.contactid + " has been created successfully");
             cancelAddContact();
             fetchContacts();
         }
@@ -196,20 +197,22 @@ function createContact(event)
 function updateContact() {
     if (selectedContact !== null) {
         // Gathering data for new contact details
-        const newFullName = prompt("Enter new name", contactArray[selectedContact].name);
+        const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
+        const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
         const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
         const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
 
-        if (newFullName && newEmail && newPhone) {
+        if (newFirstName && newLastName && newEmail && newPhone) {
 
             // Defining user id of the current user we are logged into
             let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
-            let ID = contactArray[selectedContact].id;
+            // let ID = contactArray[selectedContact].id;
+            let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId, fullName: newFullName, email: newEmail, phone: newPhone });
+            let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId, firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhone });
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
             fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
@@ -227,7 +230,9 @@ function updateContact() {
                     else {
                         // Update local data after receiving a successful response from the server via fetch
                         fetchContacts();
-                        alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
+                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
+
+                        // ***
 
                     }
                 })
@@ -243,21 +248,19 @@ function updateContact() {
 
 // Function for deleting a contact
 // Function for deleting a contact
-function deleteContact()
-{
-    if (selectedContact !== null)
-    {
-        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].name}?`);
-        if (confirmDelete)
-        {
+function deleteContact() {
+    if (selectedContact !== null) {
+        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].FirstName + " " + contactArray[selectedContact].LastName}?`);
+        if (confirmDelete) {
             // Defining user id of the current user we are logged into
             let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
-            let ID = contactArray[selectedContact].id;
+            // let ID = contactArray[selectedContact].id;
+            let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify({ contactID: ID, accountID: userId });
+            let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId });
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
             fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/DeleteContact.php", {
@@ -267,21 +270,44 @@ function deleteContact()
             })
                 // Handling the data we get sent back
                 .then(response => response.json())
-                .then(data =>
-                {
-                    if (data.error)
-                    {
+                .then(data => {
+                    if (data.error) {
                         alert("Error carrying out Delete request: " + data.error);
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
                         fetchContacts();
-                        alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
+                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
                         // Clearing contact details
-                        contactDetails.innerHTML = `<h2>Select a Contact</h2>
-                <p><span class="icon">📧</span> Email</p>
-                <p><span class="icon">📞</span> Phone</p>`;
+                        // contactDetails.innerHTML = `<h2>Select a Contact</h2>
+                        // <p><span class="icon">📧</span> Email</p>
+                        // <p><span class="icon">📞</span> Phone</p>`;
+                        // contactDetails.innerHTML = `
+                        //     <div id="addContactForm" class="form-container" style="display: none;"> ... </div>
+                        //     <div class="action-buttons" id="contactActions" style="display: none;"> ... </div>
+                        //     <div id="emptyState" class="empty-state">
+                        //         <img src="contactManagerFolder/images/delete-cat.png" ... />
+                        //         <p>Select a contact or add a new one</p>
+                        //     </div>
+                        //     <div id="contactInfo" style="display: none;"> ... </div>
+                        // `;
+
+                        /*
+                        <div id="emptyState" class="empty-state">
+                            <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                            <p>Select a contact or add a new one</p>
+                        </div>
+
+                        contactDetails.innerHTML = `
+                            <div class="action-buttons">
+                                <button onclick="updateContact()">✏️ Edit</button>
+                                <button onclick="deleteContact()">🗑️ Delete</button>
+                            </div>
+                            <h2>${contact.FirstName + " " + contact.LastName}</h2>
+                            <p><span class="icon">📧</span> ${contact.email}</p>
+                            <p><span class="icon">📞</span> ${contact.phone}</p>`;
+                        */
 
                     }
                 })
@@ -290,12 +316,10 @@ function deleteContact()
                 });
         }
     }
-    else
-    {
+    else {
         alert("Please select a contact first!");
     }
 }
-
 
 // Initial rendering
 fetchContacts();
