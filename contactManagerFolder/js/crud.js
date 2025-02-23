@@ -283,6 +283,14 @@ function deleteContact() {
                         fetchContacts();
                         // alert("Contact with id of " + contactArray[selectedContact].id + " has been deleted.");
 
+                        // reset right panel to empty state (sleeping cat)
+                        contactDetails.innerHTML = `
+                            <div id="emptyState" class="empty-state">
+                                <img src="contactManagerFolder/images/delete-cat.png" alt="Sleeping Cat" class="panda-img">
+                                <p>Select an existing contact or add a new one.</p>
+                            </div>
+                        `;
+
                         // Clearing contact details
                         // contactDetails.innerHTML = `<h2>Select a Contact</h2>
                         // <p><span class="icon">📧</span> Email</p>
