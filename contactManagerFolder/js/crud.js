@@ -286,8 +286,8 @@ function deleteContact() {
                         // reset right panel to empty state (sleeping cat)
                         contactDetails.innerHTML = `
                             <div id="emptyState" class="empty-state">
-                                <img src="contactManagerFolder/images/delete-cat.png" class="delete-cat-img">
-                                <p>Select an existing contact or add a new one.</p>
+                                <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                                <p>Select a contact or add a new one</p>
                             </div>
                         `;
 
