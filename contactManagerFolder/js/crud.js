@@ -232,8 +232,12 @@ function updateContact() {
                         fetchContacts();
                         // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
 
-                        // ***
-
+                        // Update right panel with new contact info
+                        contactArray[selectedContact].FirstName = newFirstName;
+                        contactArray[selectedContact].LastName = newLastName;
+                        contactArray[selectedContact].email = newEmail;
+                        contactArray[selectedContact].phone = newPhone;
+                        displayContactDetails(contactArray[selectedContact], selectedContact);
                     }
                 })
                 .catch(error => {
