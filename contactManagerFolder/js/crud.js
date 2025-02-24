@@ -196,58 +196,126 @@ function createContact(event)
 
 // Function for updating a contact
 function updateContact() {
+
     if (selectedContact !== null) {
         // Gathering data for new contact details
-        const newFirstName = prompt("Enter new first name", selectedContact.FirstName);
-        const newLastName = prompt("Enter new last name", selectedContact.LastName);
-        const newEmail = prompt("Enter new email:", selectedContact.Email);
-        const newPhone = prompt("Enter new phone:", selectedContact.PhoneNumber);
+        // const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
+        // const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
+        // const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
+        // const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
 
-        if (newFirstName && newLastName && newEmail && newPhone) {
+        let contact = contactArray[selectedContact];
+        // Populate modal fields with existing contact info
+        // document.getElementById("updateFirstName").value = contact.FirstName;
+        // document.getElementById("updateLastName").value = contact.LastName;
+        // document.getElementById("updateEmail").value = contact.email;
+        // document.getElementById("updatePhone").value = contact.phone;
+
+        // Ensure modal inputs exist before assigning values
+        let firstNameInput = document.getElementById("updateFirstName");
+        let lastNameInput = document.getElementById("updateLastName");
+        let emailInput = document.getElementById("updateEmail");
+        let phoneInput = document.getElementById("updatePhone");
+
+        if (!firstNameInput || !lastNameInput || !emailInput || !phoneInput) {
+            console.error("Update modal elements not found in DOM.");
+            return;
+        }
+
+        // Populate modal fields with existing contact info
+        firstNameInput.value = contact.FirstName || "";
+        lastNameInput.value = contact.LastName || "";
+        emailInput.value = contact.email || "";
+        phoneInput.value = contact.phone || "";
+
+        // Store contact ID for update reference
+        document.getElementById("updateContactForm").setAttribute("data-contact-id", contact.id);
+
+        // Show modal
+        document.getElementById("updateContactModal").style.display = "flex";
+
+        
+        
+
+        // if (newFirstName && newLastName && newEmail && newPhone) {
 
             // Defining user id of the current user we are logged into
-            let userId = getCookie('accountID');
+            // let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
             // let ID = contactArray[selectedContact].id;
-            let contactID = selectedContact.id;
+            // let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId, firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhone });
+            // let jsonPayload = JSON.stringify(updatedContact);
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
-            fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: jsonPayload
-            })
-                // Handling the data we get sent back
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error)
-                    {
-                        alert("Error carrying out put request: " + data.error);
-                    }
-                    else {
-                        // Update local data after receiving a successful response from the server via fetch
-                        fetchContacts();
-                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
-
-                        // Update right panel with new contact info
-                        contactArray[selectedContact].FirstName = newFirstName;
-                        contactArray[selectedContact].LastName = newLastName;
-                        contactArray[selectedContact].email = newEmail;
-                        contactArray[selectedContact].phone = newPhone;
-                        displayContactDetails(contactArray[selectedContact], selectedContact);
-                    }
-                })
-                .catch(error => {
-                    console.error("Error updating contact:", error);
-                });
-        }
+            
+        // }
     } else {
         alert("Please select a contact first!");
     }
+}
+
+function submitUpdatedContact(event) {
+    event.preventDefault();
+
+    let contactID = document.getElementById("updateContactForm").getAttribute("data-contact-id");
+    let userId = getCookie('accountID');
+
+    let updatedContact = {
+        contactID: contactID,
+        accountID: userId,
+        firstName: document.getElementById("updateFirstName").value.trim(),
+        lastName: document.getElementById("updateLastName").value.trim(),
+        email: document.getElementById("updateEmail").value.trim(),
+        phone: document.getElementById("updatePhone").value.trim(),
+    };
+    let jsonPayload = JSON.stringify(updatedContact);
+
+    fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonPayload
+    })
+        // Handling the data we get sent back
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error carrying out put request: " + data.error);
+            }
+            else {
+                // Update local data after receiving a successful response from the server via fetch
+                // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values " + newEmail + " " + newFullName + " " + newPhone);
+                fetchContacts();
+
+                // Update right panel with new contact info
+                // contactArray[selectedContact].FirstName = newFirstName;
+                // contactArray[selectedContact].LastName = newLastName;
+                // contactArray[selectedContact].email = newEmail;
+                // contactArray[selectedContact].phone = newPhone;
+                // contactArray[selectedContact] = updatedContact;
+                // displayContactDetails(contactArray[selectedContact], selectedContact);
+
+                closeUpdateModal();
+
+                // reset right panel to empty state (sleeping cat)
+                contactDetails.innerHTML = `
+                <div id="emptyState" class="empty-state">
+                    <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                    <p>Select a contact or add a new one</p>
+                </div>
+            `;
+            }
+        })
+        .catch(error => {
+            console.error("Error updating contact:", error);
+        });
+}
+
+// Close modal function
+function closeUpdateModal() {
+    document.getElementById("updateContactModal").style.display = "none";
 }
 
 
