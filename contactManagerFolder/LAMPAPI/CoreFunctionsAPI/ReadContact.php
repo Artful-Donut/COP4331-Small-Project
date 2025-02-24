@@ -39,8 +39,8 @@ else{
             "id" => $row["UniqueID"],
             "FirstName" => $row["FirstName"],
             "LastName" => $row["LastName"],
-            "email" => $row["Email"],
-            "phone" => $row["PhoneNumber"]
+            "Email" => $row["Email"],
+            "PhoneNumber" => $row["PhoneNumber"]
         ];
     }
     if(empty($contacts)){
