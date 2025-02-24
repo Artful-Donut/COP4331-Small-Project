@@ -50,7 +50,7 @@
                 <div class="modal-content">
                     <span class="close" onclick="closeUpdateModal()">&times;</span>
                     <h2>Edit Contact</h2>
-                    <form id="updateContactForm" onsubmit="updateContact()">
+                    <form id="updateContactForm" onsubmit="submitUpdatedContact(event)">
                         <input type="text" id="updateFirstName" class="contact-input" placeholder="First Name" required>
                         <input type="text" id="updateLastName" class="contact-input" placeholder="Last Name" required>
                         <input type="email" id="updateEmail" class="contact-input" placeholder="Email" required>

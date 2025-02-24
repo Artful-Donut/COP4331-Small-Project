@@ -216,17 +216,7 @@ function updateContact() {
         // Show modal
         document.getElementById("updateContactModal").style.display = "flex";
 
-        let contactID = document.getElementById("updateContactForm").getAttribute("data-contact-id");
-        let userId = getCookie('accountID');
         
-        let updatedContact = {
-            contactID: contactID,
-            accountID: userId,
-            newFirstName: document.getElementById("updateFirstName").value.trim(),
-            newLastName: document.getElementById("updateLastName").value.trim(),
-            newEmail: document.getElementById("updateEmail").value.trim(),
-            newPhone: document.getElementById("updatePhone").value.trim(),
-        };
         
 
         // if (newFirstName && newLastName && newEmail && newPhone) {
@@ -242,40 +232,57 @@ function updateContact() {
             let jsonPayload = JSON.stringify(updatedContact);
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
-            fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: jsonPayload
-            })
-                // Handling the data we get sent back
-                .then(response => response.json())
-                .then(data => {
-                    if (data.error)
-                    {
-                        alert("Error carrying out put request: " + data.error);
-                    }
-                    else {
-                        // Update local data after receiving a successful response from the server via fetch
-                        alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
-                        fetchContacts();
+            
+        // }
+    } else {
+        alert("Please select a contact first!");
+    }
+}
 
-                        // Update right panel with new contact info
-                        contactArray[selectedContact].FirstName = newFirstName;
-                        contactArray[selectedContact].LastName = newLastName;
-                        contactArray[selectedContact].email = newEmail;
-                        contactArray[selectedContact].phone = newPhone;
-                        displayContactDetails(contactArray[selectedContact], selectedContact);
+function submitUpdatedContact(event) {
+    event.preventDefault;
 
-                        closeUpdateModal();
-                    }
-                })
-                .catch(error => {
-                    console.error("Error updating contact:", error);
-                });
-        }
-    // } else {
-    //     alert("Please select a contact first!");
-    // }
+    let contactID = document.getElementById("updateContactForm").getAttribute("data-contact-id");
+    let userId = getCookie('accountID');
+
+    let updatedContact = {
+        contactID: contactID,
+        accountID: userId,
+        newFirstName: document.getElementById("updateFirstName").value.trim(),
+        newLastName: document.getElementById("updateLastName").value.trim(),
+        newEmail: document.getElementById("updateEmail").value.trim(),
+        newPhone: document.getElementById("updatePhone").value.trim(),
+    };
+
+    fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: jsonPayload
+    })
+        // Handling the data we get sent back
+        .then(response => response.json())
+        .then(data => {
+            if (data.error) {
+                alert("Error carrying out put request: " + data.error);
+            }
+            else {
+                // Update local data after receiving a successful response from the server via fetch
+                alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values " + newEmail + " " + newFullName + " " + newPhone);
+                fetchContacts();
+
+                // Update right panel with new contact info
+                contactArray[selectedContact].FirstName = newFirstName;
+                contactArray[selectedContact].LastName = newLastName;
+                contactArray[selectedContact].email = newEmail;
+                contactArray[selectedContact].phone = newPhone;
+                displayContactDetails(contactArray[selectedContact], selectedContact);
+
+                closeUpdateModal();
+            }
+        })
+        .catch(error => {
+            console.error("Error updating contact:", error);
+        });
 }
 
 // Close modal function
