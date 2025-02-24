@@ -257,7 +257,7 @@ function updateContact() {
 }
 
 function submitUpdatedContact(event) {
-    event.preventDefault;
+    event.preventDefault();
 
     let contactID = document.getElementById("updateContactForm").getAttribute("data-contact-id");
     let userId = getCookie('accountID');
@@ -285,7 +285,7 @@ function submitUpdatedContact(event) {
             }
             else {
                 // Update local data after receiving a successful response from the server via fetch
-                alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values " + newEmail + " " + newFullName + " " + newPhone);
+                // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values " + newEmail + " " + newFullName + " " + newPhone);
                 fetchContacts();
 
                 // Update right panel with new contact info
@@ -293,9 +293,9 @@ function submitUpdatedContact(event) {
                 contactArray[selectedContact].LastName = newLastName;
                 contactArray[selectedContact].email = newEmail;
                 contactArray[selectedContact].phone = newPhone;
-                // displayContactDetails(contactArray[selectedContact], selectedContact);
+                displayContactDetails(contactArray[selectedContact], selectedContact);
 
-                // closeUpdateModal();
+                closeUpdateModal();
             }
         })
         .catch(error => {
