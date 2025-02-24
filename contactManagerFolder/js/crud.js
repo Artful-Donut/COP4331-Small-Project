@@ -194,25 +194,53 @@ function createContact(event)
 }
 
 // Function for updating a contact
-function updateContact() {
+function updateContact(event) {
+    event.preventDefault;
+
     if (selectedContact !== null) {
         // Gathering data for new contact details
-        const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
-        const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
-        const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
-        const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
+        // const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
+        // const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
+        // const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
+        // const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
 
-        if (newFirstName && newLastName && newEmail && newPhone) {
+        let contact = contactArray[selectedContact];
+        // Populate modal fields with existing contact info
+        document.getElementById("updateFirstName").value = contact.FirstName;
+        document.getElementById("updateLastName").value = contact.LastName;
+        document.getElementById("updateEmail").value = contact.email;
+        document.getElementById("updatePhone").value = contact.phone;
+
+        // Store contact ID for update reference
+        document.getElementById("updateContactForm").setAttribute("data-contact-id", contact.id);
+
+        // Show modal
+        document.getElementById("updateContactModal").style.display = "flex";
+
+        let contactID = document.getElementById("updateContactForm").getAttribute("data-contact-id");
+        let userId = getCookie('accountID');
+        
+        let updatedContact = {
+            contactID: contactID,
+            accountID: userId,
+            newFirstName: document.getElementById("updateFirstName").value.trim(),
+            newLastName: document.getElementById("updateLastName").value.trim(),
+            newEmail: document.getElementById("updateEmail").value.trim(),
+            newPhone: document.getElementById("updatePhone").value.trim(),
+        };
+        
+
+        // if (newFirstName && newLastName && newEmail && newPhone) {
 
             // Defining user id of the current user we are logged into
-            let userId = getCookie('accountID');
+            // let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
             // let ID = contactArray[selectedContact].id;
-            let contactID = contactArray[selectedContact].id;
+            // let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId, firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhone });
+            let jsonPayload = JSON.stringify(updatedContact);
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
             fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
@@ -229,8 +257,8 @@ function updateContact() {
                     }
                     else {
                         // Update local data after receiving a successful response from the server via fetch
+                        alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
                         fetchContacts();
-                        // alert("Contact with id of " + contactArray[selectedContact].id + " has been updated with these values "  + newEmail + " " + newFullName + " " +  newPhone);
 
                         // Update right panel with new contact info
                         contactArray[selectedContact].FirstName = newFirstName;
@@ -238,15 +266,22 @@ function updateContact() {
                         contactArray[selectedContact].email = newEmail;
                         contactArray[selectedContact].phone = newPhone;
                         displayContactDetails(contactArray[selectedContact], selectedContact);
+
+                        closeUpdateModal();
                     }
                 })
                 .catch(error => {
                     console.error("Error updating contact:", error);
                 });
         }
-    } else {
-        alert("Please select a contact first!");
-    }
+    // } else {
+    //     alert("Please select a contact first!");
+    // }
+}
+
+// Close modal function
+function closeUpdateModal() {
+    document.getElementById("updateContactModal").style.display = "none";
 }
 
 

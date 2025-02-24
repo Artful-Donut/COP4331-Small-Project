@@ -45,6 +45,24 @@
                 </form>
             </div>
 
+            <!-- Update Contact Modal -->
+            <div id="updateContactModal" class="modal">
+                <div class="modal-content">
+                    <span class="close" onclick="closeUpdateModal()">&times;</span>
+                    <h2>Edit Contact</h2>
+                    <form id="updateContactForm" onsubmit="updateContact(event)">
+                        <input type="text" id="updateFirstName" class="contact-input" placeholder="First Name" required>
+                        <input type="text" id="updateLastName" class="contact-input" placeholder="Last Name" required>
+                        <input type="email" id="updateEmail" class="contact-input" placeholder="Email" required>
+                        <input type="tel" id="updatePhone" class="contact-input" placeholder="Phone Number" required>
+
+                        <button type="submit" class="btn btn-primary">Save Changes</button>
+                        <button type="button" class="btn btn-secondary" onclick="closeUpdateModal()">Cancel</button>
+                    </form>
+                </div>
+            </div>
+
+
             <div class="action-buttons" id="contactActions" style="display: none;">
                 <button onclick="updateContact()">✏️ Edit</button>
                 <button onclick="deleteContact()">🗑️ Delete</button>
