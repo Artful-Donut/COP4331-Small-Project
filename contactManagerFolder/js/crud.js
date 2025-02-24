@@ -295,7 +295,7 @@ function submitUpdatedContact(event) {
                 contactArray[selectedContact].phone = newPhone;
                 displayContactDetails(contactArray[selectedContact], selectedContact);
 
-                closeUpdateModal();
+                // closeUpdateModal();
             }
         })
         .catch(error => {
