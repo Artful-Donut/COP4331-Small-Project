@@ -204,7 +204,7 @@ function updateContact() {
         // const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
         // const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
 
-        let contact = contactArray[selectedContact];
+        // let contact = contactArray[selectedContact];
         // Populate modal fields with existing contact info
         // document.getElementById("updateFirstName").value = contact.FirstName;
         // document.getElementById("updateLastName").value = contact.LastName;
@@ -223,13 +223,13 @@ function updateContact() {
         }
 
         // Populate modal fields with existing contact info
-        firstNameInput.value = contact.FirstName || "";
-        lastNameInput.value = contact.LastName || "";
-        emailInput.value = contact.email || "";
-        phoneInput.value = contact.phone || "";
+        firstNameInput.value = selectedContact.FirstName || "";
+        lastNameInput.value = selectedContact.LastName || "";
+        emailInput.value = selectedContact.email || "";
+        phoneInput.value = selectedContact.phone || "";
 
         // Store contact ID for update reference
-        document.getElementById("updateContactForm").setAttribute("data-contact-id", contact.id);
+        document.getElementById("updateContactForm").setAttribute("data-contact-id", selectedContact.id);
 
         // Show modal
         document.getElementById("updateContactModal").style.display = "flex";
