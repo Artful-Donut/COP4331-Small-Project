@@ -293,7 +293,7 @@ function submitUpdatedContact(event) {
                 contactArray[selectedContact].LastName = newLastName;
                 contactArray[selectedContact].email = newEmail;
                 contactArray[selectedContact].phone = newPhone;
-                displayContactDetails(contactArray[selectedContact], selectedContact);
+                // displayContactDetails(contactArray[selectedContact], selectedContact);
 
                 // closeUpdateModal();
             }
