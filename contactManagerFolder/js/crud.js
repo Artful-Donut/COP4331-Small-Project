@@ -270,6 +270,7 @@ function submitUpdatedContact(event) {
         newEmail: document.getElementById("updateEmail").value.trim(),
         newPhone: document.getElementById("updatePhone").value.trim(),
     };
+    let jsonPayload = JSON.stringify(updatedContact);
 
     fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/UpdateContact.php", {
         method: 'PUT',
