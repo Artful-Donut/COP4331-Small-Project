@@ -265,10 +265,10 @@ function submitUpdatedContact(event) {
     let updatedContact = {
         contactID: contactID,
         accountID: userId,
-        newFirstName: document.getElementById("updateFirstName").value.trim(),
-        newLastName: document.getElementById("updateLastName").value.trim(),
-        newEmail: document.getElementById("updateEmail").value.trim(),
-        newPhone: document.getElementById("updatePhone").value.trim(),
+        firstName: document.getElementById("updateFirstName").value.trim(),
+        lastName: document.getElementById("updateLastName").value.trim(),
+        email: document.getElementById("updateEmail").value.trim(),
+        phone: document.getElementById("updatePhone").value.trim(),
     };
     let jsonPayload = JSON.stringify(updatedContact);
 
@@ -289,10 +289,11 @@ function submitUpdatedContact(event) {
                 fetchContacts();
 
                 // Update right panel with new contact info
-                contactArray[selectedContact].FirstName = newFirstName;
-                contactArray[selectedContact].LastName = newLastName;
-                contactArray[selectedContact].email = newEmail;
-                contactArray[selectedContact].phone = newPhone;
+                // contactArray[selectedContact].FirstName = newFirstName;
+                // contactArray[selectedContact].LastName = newLastName;
+                // contactArray[selectedContact].email = newEmail;
+                // contactArray[selectedContact].phone = newPhone;
+                contactArray[selectedContact] = updatedContact;
                 displayContactDetails(contactArray[selectedContact], selectedContact);
 
                 closeUpdateModal();
