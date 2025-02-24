@@ -194,8 +194,7 @@ function createContact(event)
 }
 
 // Function for updating a contact
-function updateContact(event) {
-    event.preventDefault;
+function updateContact() {
 
     if (selectedContact !== null) {
         // Gathering data for new contact details
