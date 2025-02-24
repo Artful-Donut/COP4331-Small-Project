@@ -85,7 +85,7 @@ function displayContactDetails(contact, index) {
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
-        <h2>${contact.firstName + " " + contact.lastName}</h2>
+        <h2>${contact.FirstName + " " + contact.LastName}</h2>
         <p><span class="icon">📧</span> ${contact.email}</p>
         <p><span class="icon">📞</span> ${contact.phone}</p>`;
 }
@@ -293,10 +293,18 @@ function submitUpdatedContact(event) {
                 // contactArray[selectedContact].LastName = newLastName;
                 // contactArray[selectedContact].email = newEmail;
                 // contactArray[selectedContact].phone = newPhone;
-                contactArray[selectedContact] = updatedContact;
-                displayContactDetails(contactArray[selectedContact], selectedContact);
+                // contactArray[selectedContact] = updatedContact;
+                // displayContactDetails(contactArray[selectedContact], selectedContact);
 
                 closeUpdateModal();
+
+                // reset right panel to empty state (sleeping cat)
+                contactDetails.innerHTML = `
+                <div id="emptyState" class="empty-state">
+                    <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                    <p>Select a contact or add a new one</p>
+                </div>
+            `;
             }
         })
         .catch(error => {
