@@ -225,8 +225,8 @@ function updateContact() {
         // Populate modal fields with existing contact info
         firstNameInput.value = selectedContact.FirstName || "";
         lastNameInput.value = selectedContact.LastName || "";
-        emailInput.value = selectedContact.email || "";
-        phoneInput.value = selectedContact.phone || "";
+        emailInput.value = selectedContact.Email || "";
+        phoneInput.value = selectedContact.PhoneNumber || "";
 
         // Store contact ID for update reference
         document.getElementById("updateContactForm").setAttribute("data-contact-id", selectedContact.id);
