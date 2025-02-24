@@ -15,6 +15,7 @@ let selectedContact = null; // Track selected contact index
 // Function for fetching the contacts 
 let contactArray = [];
 
+
 function fetchContacts() {
 
     // Define a user id -> Should not be hard coded -> need a getCookie() function
@@ -29,7 +30,7 @@ function fetchContacts() {
 
     // Creating a json object to be sent to our Read API endpoint
     let jsonPayload = JSON.stringify({ ID: userId });
-    console.log(jsonPayload);
+
 
     // POST request to our db
     fetch("http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/ReadContact.php", {
@@ -63,22 +64,22 @@ function displayContacts(contactArrayResponse) {
 
     // Clear existing contacts
     contactList.innerHTML = "";
+    
 
     // Display contacts
-    contactArrayResponse.forEach((contact, index) => {
+    contactArrayResponse.forEach((contact) => {
         const div = document.createElement("div");
         div.classList.add("contact-item");
         div.textContent = (contact.FirstName + " " + contact.LastName) || "No Name";
-        div.onclick = () => displayContactDetails(contact, index);
+        div.onclick = () => displayContactDetails(contact);
         contactList.appendChild(div);
     });
-
-    console.log("Displayed contacts:", contactArray);
+    //console.log("Displayed contacts:", contactArray);
 }
 
 // Function for displaying details about a contact within a window
-function displayContactDetails(contact, index) {
-    selectedContact = index;
+function displayContactDetails(contact) {
+    selectedContact = contact;
 
     contactDetails.innerHTML = `
         <div class="action-buttons">
@@ -86,8 +87,8 @@ function displayContactDetails(contact, index) {
             <button onclick="deleteContact()">🗑️ Delete</button>
         </div>
         <h2>${contact.FirstName + " " + contact.LastName}</h2>
-        <p><span class="icon">📧</span> ${contact.email}</p>
-        <p><span class="icon">📞</span> ${contact.phone}</p>`;
+        <p><span class="icon">📧</span> ${contact.Email}</p>
+        <p><span class="icon">📞</span> ${contact.PhoneNumber}</p>`;
 }
 
 // Show the "Add Contact" form in the right panel
@@ -197,10 +198,10 @@ function createContact(event)
 function updateContact() {
     if (selectedContact !== null) {
         // Gathering data for new contact details
-        const newFirstName = prompt("Enter new first name", contactArray[selectedContact].FirstName);
-        const newLastName = prompt("Enter new last name", contactArray[selectedContact].LastName);
-        const newEmail = prompt("Enter new email:", contactArray[selectedContact].email);
-        const newPhone = prompt("Enter new phone:", contactArray[selectedContact].phone);
+        const newFirstName = prompt("Enter new first name", selectedContact.FirstName);
+        const newLastName = prompt("Enter new last name", selectedContact.LastName);
+        const newEmail = prompt("Enter new email:", selectedContact.Email);
+        const newPhone = prompt("Enter new phone:", selectedContact.PhoneNumber);
 
         if (newFirstName && newLastName && newEmail && newPhone) {
 
@@ -209,7 +210,7 @@ function updateContact() {
 
             // Define the id of the user we have currently *selected*
             // let ID = contactArray[selectedContact].id;
-            let contactID = contactArray[selectedContact].id;
+            let contactID = selectedContact.id;
 
             // Creating JSON Payload
             let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId, firstName: newFirstName, lastName: newLastName, email: newEmail, phone: newPhone });
@@ -254,14 +255,14 @@ function updateContact() {
 // Function for deleting a contact
 function deleteContact() {
     if (selectedContact !== null) {
-        const confirmDelete = confirm(`Are you sure you want to delete ${contactArray[selectedContact].FirstName + " " + contactArray[selectedContact].LastName}?`);
+        const confirmDelete = confirm(`Are you sure you want to delete ${selectedContact.FirstName + " " + selectedContact.LastName}?`);
         if (confirmDelete) {
             // Defining user id of the current user we are logged into
             let userId = getCookie('accountID');
 
             // Define the id of the user we have currently *selected*
             // let ID = contactArray[selectedContact].id;
-            let contactID = contactArray[selectedContact].id;
+            let contactID = selectedContact.id;
 
             // Creating JSON Payload
             let jsonPayload = JSON.stringify({ contactID: contactID, accountID: userId });
@@ -333,5 +334,54 @@ function deleteContact() {
     }
 }
 
+
+
+
+function getUserID()
+{
+    return getCookie("accountID");
+}
+
+function searchContacts()
+{
+// querySelector = where to get input, addEventListener = will run function as soon as user stops typing
+document.querySelector(".search-box").addEventListener('keyup', function () 
+{
+     // trim gets rid of any spaces
+    const searchTerm = this.value.trim();
+    const userID = getUserID();                                                                           // This part is what's being sent to the PHP script
+    const phpURL = `http://contact.afari.online/contactManagerFolder/LAMPAPI/CoreFunctionsAPI/search.php?userID=${userID}&searchTerm=${encodeURIComponent(searchTerm)}`;
+    //console.log(searchTerm);
+    fetch(phpURL)
+        .then(response => response.json())
+        .then(data => {
+            //onsole.log(data);
+            //If array is empty
+            if(!data.length)
+            {
+                contactListDiv.innerHTML = "<p> No contacts found. </p>";
+                return;
+            }
+            
+            // Display contacts
+            const contactListDiv = document.getElementById("contactList");
+            contactListDiv.innerHTML = "";
+            console.log(data);
+            data.forEach((contact) => {
+                const div = document.createElement("div");
+                div.classList.add("contact-item");
+                div.textContent = (contact.FirstName + " " + contact.LastName) || "No Name";
+                div.onclick = () => displayContactDetails(contact);
+                contactListDiv.appendChild(div);
+            });     
+        })
+        .catch(error => {
+            console.error("error fetching contacts",error);
+            contactListDiv.innerHTML = "<p>Error loading contacts</p>"
+        });
+});
+}
+
 // Initial rendering
 fetchContacts();
+searchContacts();
