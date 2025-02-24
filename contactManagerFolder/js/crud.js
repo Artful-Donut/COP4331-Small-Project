@@ -205,10 +205,27 @@ function updateContact() {
 
         let contact = contactArray[selectedContact];
         // Populate modal fields with existing contact info
-        document.getElementById("updateFirstName").value = contact.FirstName;
-        document.getElementById("updateLastName").value = contact.LastName;
-        document.getElementById("updateEmail").value = contact.email;
-        document.getElementById("updatePhone").value = contact.phone;
+        // document.getElementById("updateFirstName").value = contact.FirstName;
+        // document.getElementById("updateLastName").value = contact.LastName;
+        // document.getElementById("updateEmail").value = contact.email;
+        // document.getElementById("updatePhone").value = contact.phone;
+
+        // Ensure modal inputs exist before assigning values
+        let firstNameInput = document.getElementById("updateFirstName");
+        let lastNameInput = document.getElementById("updateLastName");
+        let emailInput = document.getElementById("updateEmail");
+        let phoneInput = document.getElementById("updatePhone");
+
+        if (!firstNameInput || !lastNameInput || !emailInput || !phoneInput) {
+            console.error("Update modal elements not found in DOM.");
+            return;
+        }
+
+        // Populate modal fields with existing contact info
+        firstNameInput.value = contact.FirstName || "";
+        lastNameInput.value = contact.LastName || "";
+        emailInput.value = contact.email || "";
+        phoneInput.value = contact.phone || "";
 
         // Store contact ID for update reference
         document.getElementById("updateContactForm").setAttribute("data-contact-id", contact.id);
@@ -229,7 +246,7 @@ function updateContact() {
             // let contactID = contactArray[selectedContact].id;
 
             // Creating JSON Payload
-            let jsonPayload = JSON.stringify(updatedContact);
+            // let jsonPayload = JSON.stringify(updatedContact);
 
             // Fetch Request -> Need to pass through the ID, UserID, new name, new email, and new phone number
             
