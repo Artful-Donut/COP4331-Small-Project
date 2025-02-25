@@ -141,6 +141,27 @@ function showAddContactForm() {
 
                     <button type="submit" class="btn btn-primary w-100 py-2">Save Contact</button>
                     <button type="button" class="btn btn-secondary w-100 mt-2" onclick="cancelAddContact()">Cancel</button>
+
+                    <div class="action-buttons" id="contactActions" style="display: none;">
+                <button onclick="updateContact()">✏️ Edit</button>
+                <button onclick="deleteContact()">🗑️ Delete</button>
+            </div>
+
+            <!-- <h2>Select a Contact</h2>
+            <p><span class="icon">📧</span> <span id="email">Email</span></p>
+            <p><span class="icon">📞</span> <span id="phone">Phone</span></p> -->
+
+            <div id="emptyState" class="empty-state">
+                <img src="contactManagerFolder/images/sleeping-cat.jpg" alt="Sleeping Cat" class="cat-img">
+                <p>Select a contact or add a new one</p>
+            </div>
+
+            <div id="contactInfo" style="display: none;">
+                <h2 id="contactName">Select a Contact</h2>
+                <!-- <p><span class="icon">🙋‍♂️</span> <span id="contactname">Name</span></p> -->
+                <p><span class="icon">📧</span> <span id="email">Email</span></p>
+                <p><span class="icon">📞</span> <span id="phone">Phone</span></p>
+            </div>
                 </form>
             </div>`
     document.getElementById("addContactForm").style.display = "block";
