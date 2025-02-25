@@ -82,6 +82,31 @@ function displayContactDetails(contact) {
     selectedContact = contact;
 
     contactDetails.innerHTML = `
+        <!-- NEW: Add Contact Form (Hidden Initially) -->
+            <div id="addContactForm" class="form-container" style="display: none;">
+                <!-- <h2>Add New Contact</h2> -->
+                <h3 class="text-center mb-3">Add New Contact</h3>
+                <form onsubmit="createContact(event)">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_FirstName" id="newContact_FirstName" placeholder="First Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_LastName" id="newContact_LastName" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="newContactEmail" id="newContactEmail" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="tel" class="form-control" name="newContactPhone" id="newContactPhone" placeholder="Phone Number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">Save Contact</button>
+                    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="cancelAddContact()">Cancel</button>
+                </form>
+            </div>
         <div class="action-buttons">
             <button onclick="updateContact()">✏️ Edit</button>
             <button onclick="deleteContact()">🗑️ Delete</button>
@@ -93,7 +118,31 @@ function displayContactDetails(contact) {
 
 // Show the "Add Contact" form in the right panel
 function showAddContactForm() {
-    
+    contactDetails.innerHTML = `<!-- NEW: Add Contact Form (Hidden Initially) -->
+            <div id="addContactForm" class="form-container" style="display: none;">
+                <!-- <h2>Add New Contact</h2> -->
+                <h3 class="text-center mb-3">Add New Contact</h3>
+                <form onsubmit="createContact(event)">
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_FirstName" id="newContact_FirstName" placeholder="First Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="text" class="form-control" name="newContact_LastName" id="newContact_LastName" placeholder="Last Name" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="email" class="form-control" name="newContactEmail" id="newContactEmail" placeholder="Email Address" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <input type="tel" class="form-control" name="newContactPhone" id="newContactPhone" placeholder="Phone Number" required>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary w-100 py-2">Save Contact</button>
+                    <button type="button" class="btn btn-secondary w-100 mt-2" onclick="cancelAddContact()">Cancel</button>
+                </form>
+            </div>`
     document.getElementById("addContactForm").style.display = "block";
     document.getElementById("emptyState").style.display = "none";
     document.getElementById("contactInfo").style.display = "none";
