@@ -93,7 +93,7 @@ function displayContactDetails(contact) {
 
 // Show the "Add Contact" form in the right panel
 function showAddContactForm() {
-    showEmptyState();
+    
     document.getElementById("addContactForm").style.display = "block";
     document.getElementById("emptyState").style.display = "none";
     document.getElementById("contactInfo").style.display = "none";
